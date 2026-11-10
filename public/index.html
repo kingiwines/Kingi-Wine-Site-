@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kingi Wines | Waiheke Island</title>
+<meta name="description" content="Kingi Wines: small-batch, naturally fermented wines from single vineyards on Waiheke Island, New Zealand. Pre-order the 2026 release.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Kingi Wines | Waiheke Island">
+<meta property="og:description" content="Small-batch, naturally fermented wines from Waiheke Island. Pre-order the 2026 release.">
+<link rel="stylesheet" href="site.css">
+<script src="vendor/react.production.min.js"></script>
+<script src="vendor/react-dom.production.min.js"></script>
+<script src="support.js"></script>
+</head>
+<body>
+<!-- Static copies of the forms so Netlify Forms can detect them at deploy time. -->
+<form name="join" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="email" name="email"><input name="bot-field">
+</form>
+<form name="trade" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input name="business"><input type="email" name="email"><textarea name="note"></textarea><input name="bot-field">
+</form>
+<noscript><p style="font-family:sans-serif;padding:24px">Kingi Wines needs JavaScript turned on to show the shop.</p></noscript>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,800;1,400&amp;display=swap">
+<style>
+  body { margin: 0; background: #EDEDED; font-family: "Archivo", system-ui, sans-serif; color: #2B2D2F; }
+  a { color: #2B2D2F; text-decoration: none; }
+  a:hover { color: #8A7550; }
+  .wine-row .wine-bottle { transition: transform 0.35s ease; transform-origin: center bottom; }
+  .wine-row:hover .wine-bottle, .wine-row:focus-visible .wine-bottle { transform: scale(1.1); }
+  .preorder-tag { background: transparent; color: #2B2D2F; transition: background-color 0.2s ease, color 0.2s ease; }
+  .preorder-tag.is-filled { background: #2B2D2F; color: #EDEDED; }
+  .preorder-tag:hover, .wine-row:focus-visible .preorder-tag { background: #2B2D2F; color: #EDEDED; }
+  .preorder-tag.is-filled:hover, .wine-row:focus-visible .preorder-tag.is-filled { background: #EDEDED; color: #2B2D2F; }
+  @media (prefers-reduced-motion: reduce) { .wine-row .wine-bottle, .preorder-tag { transition: none; } }
+</style>
+</helmet>
+
+<div style="width:100%; margin:0 auto; background:{{ chrome.ground }}; color:{{ chrome.text }}; min-height:100vh">
+
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:24px 56px; background:{{ nav.bg }}">
+    <div onClick="{{ goHome }}" style="font-size:16px; font-weight:800; letter-spacing:0.34em; text-transform:uppercase; color:{{ nav.brand }}; cursor:pointer">Kingi</div>
+    <div style="display:flex; gap:28px; font-size:13px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="6">
+        <span onClick="{{ item.go }}" style="cursor:pointer; padding-bottom:3px; border-bottom:2px solid {{ item.rule }}; color:{{ item.tone }}">{{ item.label }}</span>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- ============ HOME ============ -->
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <div>
+      
+
+      
+
+      <div style="height: 332px; background: #EDEDED; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 12px; padding: 0 56px; box-sizing: border-box; width: 100%">
+        <div style="font-size: 100px; font-weight: 600; letter-spacing: 0.42em; text-indent: 0.42em; color: #4A4D50">KINGI</div><div style="font-size: 25px; font-weight: 700; color: #2B2D2F">Waiheke Island</div>
+        
+      </div><div style="display:grid; grid-template-columns:1fr 380px; gap:80px; padding:64px 56px 56px">
+        <div style="display:flex; flex-direction:column; gap:28px">
+          <div style="width:64px; height:3px; background:#2B2D2F"></div>
+          <h1 style="margin:0; max-width:18ch; font-size:52px; line-height:1.02; font-weight:800; letter-spacing:-0.02em; color:#2B2D2F">Unique Single Vineyard Reds from Waiheke Island.</h1>
+          <div style="display:flex; gap:12px; padding-top:8px">
+            <span onClick="{{ goWine }}" style="background:#2B2D2F; color:#EDEDED; font-size:15px; font-weight:600; padding:14px 22px; cursor:pointer">Shop the 2026 release</span>
+            <span onClick="{{ goJoin }}" style="font-size:15px; font-weight:600; padding:14px 4px; border-bottom:2px solid #2B2D2F; color:#2B2D2F; white-space:nowrap; cursor:pointer">Join the list</span>
+          </div>
+        </div>
+      </div><div style="display:flex; align-items:flex-end; justify-content:space-between; gap:40px; padding:36px 56px 30px; background:#EDEDED">
+        <h2 style="margin:0; font-size:30px; line-height:1.05; font-weight:800; letter-spacing:-0.02em; color:#2B2D2F">The 2026 release</h2>
+        <span onClick="{{ goWines }}" style="font-size:14px; font-weight:600; border-bottom:2px solid #2B2D2F; color:#2B2D2F; cursor:pointer">All four wines</span>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:24px; padding:8px 56px 32px">
+        <sc-for list="{{ wineCards }}" as="card" hint-placeholder-count="4">
+          <button type="button" class="wine-row" onClick="{{ card.go }}" style="display:grid; grid-template-columns:170px minmax(0,1fr) minmax(0,1.3fr) auto; gap:48px; align-items:center; width:100%; padding:8px 0; background:none; border:none; font:inherit; color:#2B2D2F; text-align:left; cursor:pointer">
+            <span style="height:290px; display:flex; align-items:center; justify-content:center">
+              <sc-if value="{{ card.shot }}" hint-placeholder-val="{{ true }}">
+                <img class="wine-bottle" data-shot="{{ card.shot }}" alt="{{ card.title }}" style="display:block; height:262px; width:auto; max-width:100%; object-fit:contain; filter:blur(8px)">
+              </sc-if>
+            </span>
+            <span style="display:flex; flex-direction:column; gap:4px">
+              <span style="font-size:32px; font-weight:800; letter-spacing:-0.01em; line-height:1.1">{{ card.nick }}</span>
+              <span style="font-size:20px; font-weight:600; line-height:1.3">{{ card.variety }}</span>
+              <span style="font-size:16px; color:#5A5E62">{{ card.vintage }}</span>
+            </span>
+            <span style="font-size:17px; line-height:1.6; color:#2B2D2F">{{ card.short }}</span>
+            <span class="preorder-tag" style="font-size:12px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; white-space:nowrap; border:1px solid #2B2D2F; padding:8px 12px">Pre-order</span>
+          </button>
+        </sc-for>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:80px; padding:48px 56px 80px">
+        
+        <div onClick="{{ goWinemaking }}" style="height:400px; display:flex; flex-direction:column; justify-content:flex-end; gap:12px; padding:40px 56px 44px; cursor:pointer; position:relative; overflow:hidden">
+          <img src="uploads/winemaking-ferment.jpg" alt="Ferment in progress" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 45%">
+          <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(21,26,28,0.82) 0%, rgba(21,26,28,0.35) 45%, rgba(21,26,28,0.05) 100%)"></div>
+          <div style="position:relative; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#F1F4E6">Winemaking</div>
+          <div style="position:relative; font-size:26px; font-weight:700; letter-spacing:-0.01em; color:#F7F8EE; max-width:22ch">Hand picked, naturally fermented, traditionally bottled.</div>
+          <div style="position:relative; align-self:flex-start; margin-top:4px; font-size:14px; font-weight:600; color:#F7F8EE; border-bottom:2px solid #C8B590">How it's made</div>
+        </div>
+        <div onClick="{{ goVineyard }}" style="height:400px; display:flex; flex-direction:column; justify-content:flex-end; gap:12px; padding:40px 56px 44px; cursor:pointer; position:relative; overflow:hidden">
+          <div style="position:absolute; inset:0; overflow:hidden">
+            <img src="uploads/vineyard-picked.jpg" alt="Picked fruit, whole bunch" loading="lazy" style="width:100%; height:100%; object-fit:cover; object-position:center center">
+          </div>
+          <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(21,26,28,0.82) 0%, rgba(21,26,28,0.35) 45%, rgba(21,26,28,0.05) 100%)"></div>
+          
+          
+          
+          <div style="position:relative; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#F1F4E6">Vineyard</div><div style="position:relative; font-size:26px; font-weight:700; letter-spacing:-0.01em; color:#F7F8EE; max-width:22ch">Two blocks, Onetangi Valley and Church Bay.</div>
+          <div style="position:relative; align-self:flex-start; margin-top:4px; font-size:14px; font-weight:600; color:#F7F8EE; border-bottom:2px solid #C8B590">See the sites</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ WINES INDEX ============ -->
+  <sc-if value="{{ isWines }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:40px; padding:48px 56px 40px; border-top:2px solid {{ chrome.rule }}">
+        <h1 style="margin:0; max-width:20ch; font-size:44px; line-height:1.02; font-weight:800; letter-spacing:-0.02em">The 2026 release.. Two varieties, Four wines. A minimilist approach&nbsp;&nbsp;</h1>
+        <div style="font-size:15px; line-height:1.5; max-width:32ch"><br></div>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:24px; padding:0 56px 48px">
+        <sc-for list="{{ wineCards }}" as="card" hint-placeholder-count="4">
+          <div class="wine-row" onClick="{{ card.go }}" style="display:flex; flex-direction:column; cursor:pointer">
+            <sc-if value="{{ card.shot }}" hint-placeholder-val="{{ false }}">
+              <div style="position:relative; height:452px; box-sizing:border-box; background:#EDEDED; display:flex; align-items:center; justify-content:center; padding:32px 0">
+                <img class="wine-bottle" data-shot="{{ card.shot }}" alt="{{ card.title }}" style="display:block; height:388px; width:auto; max-width:100%; object-fit:contain; filter:blur(14px)">
+                <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none"><span class="preorder-tag is-filled" style="pointer-events:auto; border:1px solid #2B2D2F; font-size:13px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; padding:10px 16px">Pre-order</span></div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ card.noShot }}" hint-placeholder-val="{{ true }}">
+              <div style="height:452px; box-sizing:border-box; background:#EDEDED; display:flex; align-items:flex-end; padding:16px">
+                <span style="font-family:ui-monospace,'SF Mono',Menlo,monospace; font-size:11px; letter-spacing:0.04em; background:#2B2D2F; color:#EDEDED; padding:5px 8px">bottle shot</span>
+              </div>
+            </sc-if>
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px; padding:20px 0 28px">
+              <div style="font-size:26px; font-weight:800; letter-spacing:-0.01em; line-height:1.1">{{ card.nick }}</div>
+              <div style="font-size:18px; font-weight:600">{{ card.variety }}</div>
+              <div style="font-size:15px; color:#5A5E62">{{ card.vintage }}</div>
+              <div style="font-size:17px; font-weight:700">{{ card.priceLabel }}</div>
+              <div style="font-size:14px; padding-top:4px">{{ card.bottles }} bottles</div>
+              <div style="margin-top:8px; font-size:14px; font-weight:600; border-bottom:2px solid {{ card.ink }}">View wine</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ WINE / PRODUCT ============ -->
+  <sc-if value="{{ isWine }}" hint-placeholder-val="{{ true }}">
+    <div style="background:{{ wine.ground }}; color:{{ wine.text }}">
+      <div style="display:flex; align-items:center; gap:10px; padding:20px 56px; border-top:2px solid {{ wine.rule }}; font-size:13px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:{{ wine.muted }}">
+        <span onClick="{{ goWines }}" style="cursor:pointer; border-bottom:2px solid {{ wine.ink }}; color:{{ wine.text }}">All wines</span>
+        <span>/</span>
+        <span>{{ wine.title }}</span>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; border-top:2px solid {{ wine.rule }}; border-bottom:2px solid {{ wine.rule }}">
+        <sc-if value="{{ winePhoto }}" hint-placeholder-val="{{ false }}">
+          <div style="position:relative; aspect-ratio:1856/2304; box-sizing:border-box; overflow:hidden; border-right:2px solid {{ wine.rule }}">
+            <img data-shot="{{ winePhoto }}" alt="{{ wine.title }}" style="width:100%; height:100%; object-fit:cover; display:block; filter:blur(14px)">
+            <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none"><span class="preorder-tag is-filled" style="pointer-events:auto; border:1px solid #2B2D2F; font-size:13px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; padding:10px 16px">Pre-order</span></div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ wineCutout }}" hint-placeholder-val="{{ false }}">
+          <div style="position:relative; height:640px; box-sizing:border-box; background:{{ wine.ground }}; display:flex; align-items:center; justify-content:center; padding:48px 0; overflow:hidden; border-right:2px solid {{ wine.rule }}">
+            <img data-shot="{{ wine.shot }}" alt="{{ wine.title }}" style="max-width:100%; max-height:100%; width:auto; height:100%; object-fit:contain; filter:blur(14px)">
+            <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none"><span class="preorder-tag is-filled" style="pointer-events:auto; border:1px solid #2B2D2F; font-size:13px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; padding:10px 16px">Pre-order</span></div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ wineNoShot }}" hint-placeholder-val="{{ true }}">
+          <div style="min-height:640px; background:{{ wine.stripe }}; display:flex; align-items:flex-end; padding:28px; border-right:2px solid {{ wine.rule }}">
+            <span style="font-family:ui-monospace,'SF Mono',Menlo,monospace; font-size:12px; letter-spacing:0.06em; background:{{ wine.chip }}; color:{{ wine.chipText }}; padding:6px 10px">bottle shot — {{ wine.title }}</span>
+          </div>
+        </sc-if>
+        <div style="display:flex; flex-direction:column; justify-content:space-between; gap:40px; padding:56px 56px 48px">
+          <div style="display:flex; flex-direction:column; gap:22px">
+            <sc-if value="{{ wine.kicker }}" hint-placeholder-val="{{ true }}"><div style="font-size:13px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:{{ wine.muted }}">{{ wine.kicker }}</div></sc-if>
+            <h1 style="margin:0; font-size:56px; line-height:0.98; font-weight:800; letter-spacing:-0.02em; color:{{ wine.ink }}">{{ wine.name }}<br>2026</h1>
+            <p style="margin:0; max-width:46ch; font-size:17px; line-height:1.6; text-wrap:pretty">{{ wine.note }}</p>
+            <div style="display:flex; flex-direction:column; border-top:2px solid {{ wine.rule }}">
+              <sc-if value="{{ showVineyard }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex; justify-content:space-between; padding:14px 0; border-bottom:1px solid {{ wine.rule2 }}; font-size:15px"><span style="color:{{ wine.muted }}">Vineyard</span><span style="font-weight:600">{{ wine.vineyard }}</span></div>
+              </sc-if>
+              <div style="display:flex; justify-content:space-between; padding:14px 0; border-bottom:1px solid {{ wine.rule2 }}; font-size:15px"><span style="color:{{ wine.muted }}">Fermentation</span><span style="font-weight:600">Naturally fermented</span></div>
+              <div style="display:flex; justify-content:space-between; padding:14px 0; border-bottom:1px solid {{ wine.rule2 }}; font-size:15px"><span style="color:{{ wine.muted }}">Production</span><span style="font-weight:600">{{ wine.production }}</span></div>
+              <div style="display:flex; justify-content:space-between; padding:14px 0; font-size:15px"><span style="color:{{ wine.muted }}">Price</span><span style="font-weight:700">{{ wine.priceLabel }}</span></div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:16px">
+            <div style="display:flex; align-items:center; border:2px solid {{ wine.ink }}">
+              <span onClick="{{ dec }}" style="padding:10px 16px; font-size:18px; font-weight:600; cursor:pointer">–</span>
+              <span style="padding:10px 8px; min-width:32px; text-align:center; font-size:16px; font-weight:600">{{ qty }}</span>
+              <span onClick="{{ inc }}" style="padding:10px 16px; font-size:18px; font-weight:600; cursor:pointer">+</span>
+            </div>
+            <span onClick="{{ addToCart }}" style="background:{{ wine.btn }}; color:{{ wine.onInk }}; font-size:16px; font-weight:700; padding:16px 26px; cursor:pointer">Add to cart</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:20px; padding:36px 56px 44px; border-bottom:2px solid {{ wine.rule }}">
+        <div style="font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:{{ wine.muted }}">Also in the release</div>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px">
+          <sc-for list="{{ otherWines }}" as="other" hint-placeholder-count="3">
+            <div onClick="{{ other.go }}" style="display:flex; flex-direction:column; gap:6px; cursor:pointer; border-top:2px solid {{ other.rule }}; padding-top:14px">
+              <span style="font-size:18px; font-weight:600">{{ other.title }}</span>
+              <span style="font-size:14px; color:{{ other.muted }}">{{ other.bottles }} bottles</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ VINEYARD ============ -->
+  <sc-if value="{{ isVineyard }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; border-top:2px solid rgba(43,45,47,0.5); border-bottom:2px solid rgba(43,45,47,0.5)">
+        <div style="display:flex; flex-direction:column; gap:20px; padding:56px; border-right:2px solid rgba(43,45,47,0.5)">
+          <div style="font-size:13px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#5A5E62">Onetangi Valley</div>
+          <h2 style="margin:0; font-size:38px; line-height:1.05; font-weight:800; letter-spacing:-0.02em">The Pinnacle of Waiheke Syrah, Overlooking Onetangi Valley&nbsp;</h2>
+          <p style="margin:0; font-size:17px; line-height:1.6; text-wrap:pretty">Waiheke has many unique sites across the Island. All meticously cared for over the 30 years of Waiheke Viticulture.&nbsp;<br><br>Kingi wines works with closely with other island vineyards and wineries. In 2026,&nbsp; an opportunity came about to source fruit from one of the islands most renowned&nbsp; Syrah blocks.&nbsp;<br><br>A north aspect over looking the Onetangi Valley, this block planted to MS clone Syrah produces some truly unique fruit. Vines were established over 30 years ago, cared for by hand all along the way.&nbsp;</p>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:20px; padding:56px">
+          <div style="font-size:13px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#5A5E62">Church Bay</div>
+          <h2 style="margin:0; font-size:38px; line-height:1.05; font-weight:800; letter-spacing:-0.02em">Organic mindset, a vineyard that exudes viticultural passion.</h2>
+          <p style="margin:0; font-size:17px; line-height:1.6; text-wrap:pretty">When thinking of viticultural consistency on Waiheke, Jurassic Ridge Vineyard is the first that comes to mind. An organic approach that requires intensive labour, the result; an extremely healthy vineyard with premium quality fruit.&nbsp;<br><br>Sitting above Church Bay in a protected position, the soils consist of thriving top soil on heavy clay. Just as areas of the Chinon appellation in the Loire Valley, these soils produce elegant Cabernet Franc, balanced and complex.&nbsp;</p>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; border-bottom:2px solid rgba(43,45,47,0.5)">
+        <div style="height:420px; display:flex; align-items:flex-end; padding:20px; position:relative; overflow:hidden; border-right:2px solid rgba(43,45,47,0.5)">
+          <img src="uploads/vineyard-bunches.jpg" alt="Bunches on the vine" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 40%">
+        </div>
+        <div style="height:420px; display:flex; align-items:flex-end; padding:20px; position:relative; overflow:hidden">
+          <img src="uploads/vineyard-fruit.jpg" alt="Fruit on the vine before picking" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 70%">
+          
+        </div><div style="height:420px; display:flex; align-items:flex-end; padding:20px; position:relative; overflow:hidden; border-left:2px solid rgba(43,45,47,0.5)">
+          <img src="uploads/vineyard-picked-winery.jpg" alt="Picked fruit at the winery" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center center">
+          
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:32px; padding:36px 56px">
+        <div style="font-size:20px; font-weight:600">Both sites are picked by hand and vinified separately.</div>
+        <span onClick="{{ goWinemaking }}" style="border:2px solid #2B2D2F; font-size:15px; font-weight:600; padding:12px 20px; cursor:pointer">How the wine is made</span>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ WINEMAKING ============ -->
+  <sc-if value="{{ isWinemaking }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <div style="display:grid; grid-template-columns:1fr 460px; border-top:2px solid rgba(43,45,47,0.5)">
+        <div style="display:flex; flex-direction:column; gap:24px; padding:56px">
+          <div style="font-size:13px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#5A5E62">Winemaking</div>
+          <h1 style="margin:0; max-width:20ch; font-size:48px; line-height:1.02; font-weight:800; letter-spacing:-0.02em">Naturally fermented, and left alone.</h1>
+          <p style="margin:0; max-width:56ch; font-size:17px; line-height:1.6; text-wrap:pretty">Having learnt under some of New Zealand's best winemakers, Josh Kingston “Kingi” makes wines with a minimalist intervention mindset.<br><br>Having gained international experience through multiple vintages in the Rhone Valley and Sonoma Coast, with ultra premium producers. Josh knows the importance of pure fruit expression.&nbsp;<br><br>Waiheke vineyards produce some of New Zealand's finest wines. A unique sense of place in every bottle. Allowing the fruit to truly represent a moment in time.&nbsp;<br><br><br><br></p>
+        </div>
+        <div style="min-height:520px; display:flex; align-items:flex-end; padding:24px; position:relative; overflow:hidden">
+          <img src="uploads/josh-harvest.jpg" alt="Josh Kingston with a bin of picked fruit" style="position: absolute; inset: 0; width: 510px; height: 604px; object-fit: cover; object-position: center 46%; transform: scale(1.35); transform-origin: center 46%; filter: grayscale(1) contrast(1.05); left: -34px; top: 16px">
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); padding-bottom:24px">
+        <div style="padding:36px 32px 36px 56px; display:flex; flex-direction:column; gap:10px">
+          <div style="font-size:13px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#5A5E62">01</div>
+          <div style="font-size:18px; font-weight:600">Hand-picked</div>
+          <div style="font-size:15px; line-height:1.5; color:#2B2D2F">Harvested by hand into small crates. Meticulously sorted for the best quality.&nbsp;</div>
+        </div>
+        <div style="padding:36px 32px; display:flex; flex-direction:column; gap:10px">
+          <div style="font-size:13px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#5A5E62">02</div>
+          <div style="font-size:18px; font-weight:600">Indigenous natural yeast</div>
+          <div style="font-size:15px; line-height:1.5; color:#2B2D2F">Wines are fermented naturally using the yeast already present on the grapes and ambient in the winery.</div>
+        </div>
+        <div style="padding:36px 32px; display:flex; flex-direction:column; gap:10px">
+          <div style="font-size:13px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#5A5E62">03</div>
+          <div style="font-size:18px; font-weight:600">Gentle management</div>
+          <div style="font-size:15px; line-height:1.5; color:#2B2D2F">The reds cap is hand plunged twice daily through fermentation.</div>
+        </div>
+        <div style="padding:36px 56px 36px 32px; display:flex; flex-direction:column; gap:10px">
+          <div style="font-size:13px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#5A5E62">04</div>
+          <div style="font-size:18px; font-weight:600">Traditionally bottled</div>
+          <div style="font-size:15px; line-height:1.5; color:#2B2D2F">Small addition of sulphur. Fined traditionally and selectively with egg white.</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ TRADE ============ -->
+  <sc-if value="{{ isTrade }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; border-top:2px solid rgba(43,45,47,0.5); border-bottom:2px solid rgba(43,45,47,0.5)">
+        <div style="display:flex; flex-direction:column; gap:24px; padding:56px; border-right:2px solid rgba(43,45,47,0.5)">
+          <div style="font-size:13px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#5A5E62">Trade</div>
+          <h1 style="margin:0; max-width:18ch; font-size:48px; line-height:1.02; font-weight:800; letter-spacing:-0.02em">Restaurants, retailers and export.</h1>
+          <p style="margin:0; max-width:52ch; font-size:17px; line-height:1.6; text-wrap:pretty">Production is small — 1,900 bottles across four wines in 2026 — so allocations are set once a year. Tell us where you are and what you pour, and we will come back with what is available.</p>
+          <div style="display:flex; flex-direction:column; border-top:2px solid rgba(43,45,47,0.5); margin-top:8px">
+            <div style="display:flex; justify-content:space-between; padding:14px 0; border-bottom:1px solid rgba(43,45,47,0.25); font-size:15px"><span style="color:#5A5E62">Minimum order</span><span style="font-weight:600">Six bottles</span></div>
+            <div style="display:flex; justify-content:space-between; padding:14px 0; border-bottom:1px solid rgba(43,45,47,0.25); font-size:15px"><span style="color:#5A5E62">Lead time</span><span style="font-weight:600">Five working days</span></div>
+            <div style="display:flex; justify-content:space-between; padding:14px 0; font-size:15px"><span style="color:#5A5E62">Export</span><span style="font-weight:600">By arrangement</span></div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:20px; padding:56px">
+          <div style="font-size:13px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#5A5E62">Allocation enquiry</div>
+          <div style="display:flex; flex-direction:column; gap:6px">
+            <label style="font-size:13px; font-weight:600; color:#5A5E62">Business name</label>
+            <input value="{{ tradeBusiness }}" onChange="{{ setTradeBusiness }}" style="border:2px solid #2B2D2F; background:transparent; padding:12px 14px; font-family:inherit; font-size:16px; color:#2B2D2F; border-radius:0">
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px">
+            <label style="font-size:13px; font-weight:600; color:#5A5E62">Email</label>
+            <input value="{{ tradeEmail }}" onChange="{{ setTradeEmail }}" style="border:2px solid #2B2D2F; background:transparent; padding:12px 14px; font-family:inherit; font-size:16px; color:#2B2D2F; border-radius:0">
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px">
+            <label style="font-size:13px; font-weight:600; color:#5A5E62">What are you after?</label>
+            <textarea value="{{ tradeNote }}" onChange="{{ setTradeNote }}" rows="4" style="border:2px solid #2B2D2F; background:transparent; padding:12px 14px; font-family:inherit; font-size:16px; color:#2B2D2F; border-radius:0; resize:vertical"></textarea>
+          </div>
+          <button type="button" onClick="{{ submitTrade }}" style="align-self:flex-start; background:#2B2D2F; color:#EDEDED; border:none; font-family:inherit; font-size:15px; font-weight:600; padding:14px 22px; cursor:pointer">{{ tradeCta }}</button>
+          <sc-if value="{{ formError }}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size:14px; color:#8A2A1F">{{ formError }}</div></sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ CART ============ -->
+  <sc-if value="{{ isCart }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <div style="display:grid; grid-template-columns:1fr 420px; border-top:2px solid rgba(43,45,47,0.5)">
+        <div style="display:flex; flex-direction:column; gap:0; padding:56px; border-right:2px solid rgba(43,45,47,0.5)">
+          <h1 style="margin:0 0 28px; font-size:40px; line-height:1.02; font-weight:800; letter-spacing:-0.02em">Cart</h1>
+          <sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex; flex-direction:column; gap:20px; align-items:flex-start; border-top:2px solid rgba(43,45,47,0.5); padding-top:24px">
+              <div style="font-size:17px; color:#2B2D2F">Nothing in the cart yet.</div>
+              <span onClick="{{ goWine }}" style="border:2px solid #2B2D2F; font-size:15px; font-weight:600; padding:12px 20px; cursor:pointer">Back to the wines</span>
+            </div>
+          </sc-if>
+          <div style="display:flex; flex-direction:column; border-top:2px solid rgba(43,45,47,0.5)">
+            <sc-for list="{{ cartLines }}" as="line" hint-placeholder-count="1">
+              <div style="display:grid; grid-template-columns:1fr 120px 100px; gap:24px; align-items:center; padding:20px 0; border-bottom:1px solid rgba(43,45,47,0.25)">
+                <div style="display:flex; flex-direction:column; gap:4px">
+                  <span style="font-size:18px; font-weight:600">{{ line.name }}</span>
+                </div>
+                <div style="display:flex; align-items:center; border:2px solid #2B2D2F; justify-self:start">
+                  <span onClick="{{ line.dec }}" style="padding:6px 12px; font-size:16px; font-weight:600; cursor:pointer">–</span>
+                  <span style="padding:6px 6px; min-width:26px; text-align:center; font-size:15px; font-weight:600">{{ line.qty }}</span>
+                  <span onClick="{{ line.inc }}" style="padding:6px 12px; font-size:16px; font-weight:600; cursor:pointer">+</span>
+                </div>
+                <span style="font-size:16px; font-weight:600; text-align:right">{{ line.total }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:20px; padding:56px">
+          <div style="font-size:13px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#5A5E62">Checkout</div>
+          <div style="display:flex; flex-direction:column; gap:6px">
+            <label for="checkout-email" style="font-size:13px; font-weight:600; color:#5A5E62">Email</label>
+            <input id="checkout-email" type="email" autocomplete="email" value="{{ email }}" onChange="{{ setEmail }}" style="border:2px solid #2B2D2F; background:transparent; padding:12px 14px; font-family:inherit; font-size:16px; color:#2B2D2F; border-radius:0">
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px">
+            <label for="promo-code" style="font-size:13px; font-weight:600; color:#5A5E62">Promo code</label>
+            <div style="display:flex">
+              <input id="promo-code" value="{{ promoCode }}" onChange="{{ setPromoCode }}" placeholder="Enter code" style="flex:1; min-width:0; border:2px solid #2B2D2F; border-right:none; background:transparent; padding:12px 14px; font-family:inherit; font-size:16px; color:#2B2D2F; border-radius:0; text-transform:uppercase">
+              <button type="button" onClick="{{ applyPromo }}" style="background:#2B2D2F; color:#EDEDED; border:none; font-family:inherit; font-size:14px; font-weight:600; padding:0 20px; cursor:pointer">Apply</button>
+            </div>
+            <sc-if value="{{ promoMessage }}" hint-placeholder-val="{{ false }}">
+              <div role="status" style="font-size:13px; color:#2B2D2F">{{ promoMessage }}</div>
+            </sc-if>
+          </div>
+          <div style="display:flex; flex-direction:column; border-top:2px solid rgba(43,45,47,0.5); margin-top:8px">
+            <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid rgba(43,45,47,0.25); font-size:15px"><span style="color:#5A5E62">Bottles</span><span style="font-weight:600">{{ cartCount }}</span></div>
+            <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid rgba(43,45,47,0.25); font-size:15px"><span style="color:#5A5E62">Shipping</span><span style="font-weight:600">{{ shippingLabel }}</span></div>
+            <div style="display:flex; justify-content:space-between; padding:12px 0; font-size:17px"><span style="font-weight:600">Wine total</span><span style="font-weight:700">{{ cartTotal }}</span></div>
+          </div>
+          <div style="display:flex; gap:12px; align-items:flex-start">
+            <input type="checkbox" id="checkout-age" checked="{{ checkoutAge }}" onChange="{{ toggleCheckoutAge }}" style="width:20px; height:20px; margin:2px 0 0; accent-color:#2B2D2F; flex:none">
+            <label for="checkout-age" style="font-size:14px; line-height:1.5; color:#2B2D2F">I confirm I am 18 years of age or over, and that the order will be received and signed for by someone 18 or over.</label>
+          </div>
+          <button type="button" onClick="{{ placeOrder }}" disabled="{{ checkingOut }}" style="background:#2B2D2F; color:#EDEDED; font-family:inherit; font-size:15px; font-weight:600; padding:16px 24px; border:none; text-align:left; cursor:pointer">{{ checkoutCta }}</button>
+          <sc-if value="{{ checkoutNeedsAge }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="font-size:14px; color:#8A2A1F">Please confirm you are 18 or over to place your order.</div>
+          </sc-if>
+          <sc-if value="{{ checkoutError }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="font-size:14px; color:#8A2A1F">{{ checkoutError }}</div>
+          </sc-if>
+          <div style="font-size:12px; line-height:1.5; color:#5A5E62">Shipping under six bottles: Auckland incl. Waiheke $14 · rest of North Island $18 · South Island $23. Choose your region, enter your delivery address and pay securely with Stripe on the next page. Prices in NZD.</div>
+          <div style="display:flex; flex-direction:column; gap:4px; border-top:1px solid rgba(43,45,47,0.25); padding-top:14px; font-size:12px; line-height:1.5; color:#5A5E62">
+            <span>Licensee: Kingi Wines Limited</span>
+            <span>Off-licence 007/OFF/373/2026 · Expires 6 November 2027</span>
+            <span>Deliveries signed for by someone 18 or over. No deliveries between 11pm and 6am, on Good Friday, Easter Sunday or Christmas Day, or before 1pm on Anzac Day.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ JOIN ============ -->
+  <sc-if value="{{ isJoin }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; border-top:2px solid rgba(43,45,47,0.5); border-bottom:2px solid rgba(43,45,47,0.5); min-height:520px">
+        <div style="display:flex; flex-direction:column; justify-content:center; gap:24px; padding:56px; border-right:2px solid rgba(43,45,47,0.5)">
+          <h1 style="margin:0; max-width:16ch; font-size:48px; line-height:1.02; font-weight:800; letter-spacing:-0.02em">Become a mate, be in the know.</h1>
+          <p style="margin:0; max-width:48ch; font-size:17px; line-height:1.6; text-wrap:pretty">Kingi's mates get first access to any new release, plus exclusive offers. Get to know Kingi...</p>
+          <div style="display:flex; gap:0; max-width:460px">
+            <input type="email" aria-label="Email address" autocomplete="email" value="{{ joinEmail }}" onChange="{{ setJoinEmail }}" placeholder="you@example.com" style="flex:1; border:2px solid #2B2D2F; border-right:none; background:transparent; padding:14px 16px; font-family:inherit; font-size:16px; color:#2B2D2F; border-radius:0">
+            <button type="button" onClick="{{ submitJoin }}" style="background:#2B2D2F; color:#EDEDED; border:none; font-family:inherit; font-size:15px; font-weight:600; padding:16px 22px; cursor:pointer; white-space:nowrap">{{ joinCta }}</button>
+          </div>
+          <sc-if value="{{ formError }}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size:14px; color:#8A2A1F">{{ formError }}</div></sc-if>
+        </div>
+        <div style="display:flex; flex-direction:column; justify-content:center; gap:28px; padding:56px">
+          <div style="display:flex; flex-direction:column; gap:6px">
+            <div style="font-size:13px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#5A5E62">Email</div>
+            <a href="mailto:kingi.wine@gmail.com" style="font-size:18px">kingi.wine@gmail.com</a>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px">
+            <div style="font-size:13px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#5A5E62">Trade enquiries</div>
+            <div onClick="{{ goTrade }}" style="font-size:18px; cursor:pointer; border-bottom:2px solid #2B2D2F; align-self:flex-start">Allocation form</div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px">
+            <div style="font-size:13px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#5A5E62">Where we are</div>
+            <div style="font-size:18px">Waiheke Island, Aotearoa New Zealand</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ TERMS ============ -->
+  <sc-if value="{{ isTerms }}" hint-placeholder-val="{{ true }}">
+    <div style="border-top:2px solid rgba(43,45,47,0.5); padding:56px; display:flex; flex-direction:column; gap:28px; max-width:760px">
+      <div style="font-size:13px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#5A5E62">Terms of Service</div>
+      <h1 style="margin:0; font-size:44px; line-height:1.02; font-weight:800; letter-spacing:-0.02em">Terms of Service</h1>
+      <p style="margin:0; font-size:17px; line-height:1.6">By browsing this website you agree to these Terms of Service. Kingi Wines Limited sells alcohol online under off-licence 007/OFF/373/2026, issued by the Auckland District Licensing Committee, which expires on 6 November 2027.</p>
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <h2 style="margin:0; font-size:20px; font-weight:800">Age</h2>
+        <p style="margin:0; font-size:16px; line-height:1.6">You must be 18 years of age or older to use this website and to buy alcohol from us. You will be asked to confirm your age when you first enter the site, and again immediately before your order is completed. Anyone who does not follow these steps, or tries to get around them, will not be able to buy alcohol from us.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <h2 style="margin:0; font-size:20px; font-weight:800">Delivery</h2>
+        <p style="margin:0; font-size:16px; line-height:1.6">All orders are sent by courier with a signature service and must be received and signed for by someone 18 years of age or older. The courier will check photo ID before handing over the order, and orders will not be left if they cannot be signed for. Orders will not be delivered to anyone who appears to be intoxicated.</p>
+        <p style="margin:0; font-size:16px; line-height:1.6">We do not deliver between 11pm and 6am, at any time on Good Friday, Easter Sunday or Christmas Day, or before 1pm on Anzac Day.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <h2 style="margin:0; font-size:20px; font-weight:800">Identification</h2>
+        <p style="margin:0; font-size:16px; line-height:1.6">If there is any doubt about age, we will ask for one of the following: a New Zealand photo driver licence, a passport, a New Zealand Access Card or an HNZ 18+ card.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <h2 style="margin:0; font-size:20px; font-weight:800">Licence and policy</h2>
+        <p style="margin:0; font-size:16px; line-height:1.6">You can view our <a href="uploads/Kingi-Wines-Off-Licence.pdf" target="_blank" rel="noopener" style="border-bottom:1px solid #2B2D2F; font-weight:600">off-licence</a> and our <a href="uploads/Kingi-Wines-Social-Responsibility-Policy.pdf" target="_blank" rel="noopener" style="border-bottom:1px solid #2B2D2F; font-weight:600">Social Responsibility Policy</a> at any time.</p>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ AGE GATE ============ -->
+  <sc-if value="{{ showGate }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-labelledby="gate-title" style="position:fixed; inset:0; z-index:50; background:rgba(21,26,28,0.88); display:flex; align-items:center; justify-content:center; padding:24px; box-sizing:border-box">
+      <div style="background:#EDEDED; color:#2B2D2F; width:100%; max-width:460px; padding:40px 36px; box-sizing:border-box; display:flex; flex-direction:column; gap:22px">
+        <div style="font-size:22px; font-weight:800; letter-spacing:0.34em; text-indent:0.34em; text-align:center">KINGI</div>
+        <h2 id="gate-title" style="margin:0; font-size:26px; line-height:1.1; font-weight:800; letter-spacing:-0.01em; text-align:center">Are you 18 or over?</h2>
+        <div style="display:flex; gap:12px; align-items:flex-start">
+          <input type="checkbox" id="gate-age" checked="{{ gateTick }}" onChange="{{ toggleGateTick }}" style="width:20px; height:20px; margin:2px 0 0; accent-color:#2B2D2F; flex:none">
+          <label for="gate-age" style="font-size:15px; line-height:1.5">I declare that I am 18 years of age or over.</label>
+        </div>
+        <button type="button" onClick="{{ enterSite }}" style="background:#2B2D2F; color:#EDEDED; font-family:inherit; font-size:16px; font-weight:700; padding:16px 20px; border:none; cursor:pointer">Enter</button>
+        <sc-if value="{{ gateNeedsTick }}" hint-placeholder-val="{{ false }}">
+          <div role="alert" style="font-size:14px; color:#8A2A1F; text-align:center">Please tick the box to confirm you are 18 or over.</div>
+        </sc-if>
+        <p style="margin:0; font-size:13px; line-height:1.5; color:#5A5E62; text-align:center">By entering and browsing this site you agree to our Terms of Service.<br>Kingi Wines Limited · Off-licence 007/OFF/373/2026 · Expires 6 November 2027</p>
+      </div>
+    </div>
+  </sc-if>
+
+  <footer style="display:flex; flex-direction:column; gap:16px; padding:28px 56px 32px; border-top:1px solid {{ chrome.rule2 }}; font-size:13px; color:{{ chrome.muted }}">
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap">
+      <span>Kingi Wines · Waiheke Island</span>
+      <nav aria-label="Legal and social" style="display:flex; gap:24px; flex-wrap:wrap">
+        <a href="uploads/Kingi-Wines-Off-Licence.pdf" target="_blank" rel="noopener" style="color:{{ chrome.text }}; font-weight:600; border-bottom:1px solid {{ chrome.text }}">Liquor licence (PDF)</a>
+        <a href="uploads/Kingi-Wines-Social-Responsibility-Policy.pdf" target="_blank" rel="noopener" style="color:{{ chrome.text }}; font-weight:600; border-bottom:1px solid {{ chrome.text }}">Social responsibility</a>
+        <button type="button" onClick="{{ goTerms }}" style="background:none; border:none; padding:0; font:inherit; cursor:pointer; color:{{ chrome.text }}; font-weight:600; border-bottom:1px solid {{ chrome.text }}">Terms of Service</button>
+        <a href="https://www.instagram.com/kingi.wines/" target="_blank" rel="noopener" style="color:{{ chrome.text }}; font-weight:600; border-bottom:1px solid {{ chrome.text }}">Instagram</a>
+      </nav>
+    </div>
+    <div style="font-size:12px; line-height:1.5">Kingi Wines Limited · Off-licence 007/OFF/373/2026 · Expires 6 November 2027. You must be 18 or over to buy alcohol.</div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { page: "home", wineKey: "syrah", qty: 1, cart: [], email: "", address: "", joinEmail: "", joined: false,
+            tradeBusiness: "", tradeEmail: "", tradeNote: "", tradeSent: false, ordered: false, promoCode: "", promoMessage: "",
+            ageOk: false, gateTick: false, gateTried: false, checkoutAge: false, checkoutTried: false,
+            checkingOut: false, checkoutError: "", formError: "" };
+
+  // Shown on the site only. The prices actually charged live in netlify/functions/catalogue.js.
+  freeShippingFrom = 6;   // bottles
+
+  wines = [
+    { key: "syrah", price: 62, priceLabel: "$62", nick: "‘Bell’", variety: "Syrah", vintage: "2026", short: "Single vineyard expression from the Onetangi Valley. Naturally fermented with 30% whole bunch, aged 8 months in French Oak.", name: "‘Bell’ Syrah", title: "‘Bell’ Syrah 2026", style: "Single vineyard",
+      kicker: "Single vineyard · Onetangi Valley", vineyard: "Onetangi Valley", bottles: 800, production: "800 bottles",
+      shot: "uploads/syrah-bottle.webp",
+      note: "Hand-picked from an ultra premium block above Onetangi Valley, fermented with indigenous yeast and 30% whole bunch clusters. Left on skins for 18 days, where balance was found. Aged 8 months in French Oak barriques." },
+    { key: "cabfranc", price: 55, priceLabel: "$55", nick: "‘Hartley’", variety: "Cabernet Franc", vintage: "2026", short: "Sourced from the organically managed Jurassic Ridge Vineyard. A single vineyard wine, naturally fermented, aged 8 months in seasoned French and American Oak.", name: "‘Hartley’ Cabernet Franc", title: "‘Hartley’ Cabernet Franc 2026", style: "Single vineyard",
+      kicker: "Single vineyard · Church Bay", vineyard: "Jurassic Ridge", bottles: 600, production: "600 bottles",
+      shot: "uploads/cabfranc-bottle.webp",
+      note: "From the organically managed vineyard at Church Bay, closer to the water and cooler through the season. Naturally fermented, aged 8 months in seasoned French oak, bottled unfined." },
+    { key: "chilled", price: 39, priceLabel: "$39", nick: "‘Bonnie’", variety: "Chilled Red", vintage: "2026", short: "A modern blend of Syrah and Cabernet Franc. Drained after 5 days of skin contact. Light, aromatic, served cold.", name: "‘Bonnie’ Chilled Red", title: "‘Bonnie’ Chilled Red 2026", style: "Blend",
+      kicker: "", vineyard: "Onetangi Valley and Church Bay", hideVineyard: true, bottles: 250, production: "250 bottles",
+      shot: "uploads/chilled-bottle.webp",
+      note: "After 5 days of maceration juice was drained from the Syrah and Cabernet Franc ferments. The fermenting juice was transferred to stainless steel tank to complete fermentation. A touch of Albariño lees were added to the ferment giving the wine an aromatic lift. The wine was settled, lightly filtered and bottled soon after ferment to preserve the light aromatic style." },
+    { key: "rose", price: 32, priceLabel: "$32", nick: "‘Brae’", variety: "Rosé", vintage: "2026", short: "Whole bunch pressed and cool fermented in stainless steel. Fresh, bright fruit aromas.", name: "‘Brae’ Rosé", title: "‘Brae’ Rosé 2026", style: "Blend",
+      kicker: "", vineyard: "Onetangi Valley and Church Bay", hideVineyard: true, bottles: 250, production: "250 bottles",
+      shot: "uploads/rose-bottle.webp",
+      note: "Gently whole bunch pressed to stainless steel tank. Settled and racked prior to fermentation. Fermented under cool temperatures in stainless steel tanks to preserve and amplify beautiful fruit aromas." }
+  ];
+
+  palettes = {
+    default: { ground: "#EDEDED", ink: "#2B2D2F", brand: "#2B2D2F", btn: "#2B2D2F", onInk: "#EDEDED",
+               text: "#2B2D2F", muted: "#5A5E62", chip: "#C8B590", chipText: "#2B2D2F",
+               rule: "rgba(43,45,47,0.5)", rule2: "rgba(43,45,47,0.25)",
+               stripe: "repeating-linear-gradient(45deg,#E3E3E3 0 10px,#EDEDED 10px 20px)" },
+    winesIndex: { ground: "#EDEDED", ink: "#2B2D2F", brand: "#2B2D2F", btn: "#2B2D2F", onInk: "#EDEDED",
+                  text: "#2B2D2F", muted: "#5A5E62", chip: "#C8B590", chipText: "#2B2D2F",
+                  rule: "rgba(43,45,47,0.5)", rule2: "rgba(43,45,47,0.25)",
+                  stripe: "repeating-linear-gradient(45deg,#E3E3E3 0 10px,#EDEDED 10px 20px)" },
+    syrah: { ground: "#8D844E", ink: "#8DD5C7", brand: "#1E1C0E", btn: "#8DD5C7", onInk: "#1E1C0E",
+             text: "#1E1C0E", muted: "#2C2914", chip: "#8DD5C7", chipText: "#1E1C0E",
+             rule: "rgba(30,28,14,0.6)", rule2: "rgba(30,28,14,0.36)",
+             stripe: "repeating-linear-gradient(45deg,#837b48 0 10px,#968d55 10px 20px)" },
+    chilled: { ground: "#b4d0ce", ink: "#c22c6f", brand: "#15302E", btn: "#A3235D", onInk: "#FDF4F8",
+               text: "#15302E", muted: "#23433F", chip: "#c22c6f", chipText: "#FFFFFF",
+               rule: "rgba(21,48,46,0.55)", rule2: "rgba(21,48,46,0.32)",
+               stripe: "repeating-linear-gradient(45deg,#a3c2bf 0 10px,#bbd6d4 10px 20px)" },
+    rose: { ground: "#b02838", ink: "#a9b1c6", brand: "#FFFFFF", btn: "#a9b1c6", onInk: "#1A1E2C",
+            text: "#FFFFFF", muted: "#F2F4F8", chip: "#a9b1c6", chipText: "#1A1E2C",
+            rule: "rgba(255,255,255,0.6)", rule2: "rgba(255,255,255,0.36)",
+            stripe: "repeating-linear-gradient(45deg,#9e2432 0 10px,#b92c3d 10px 20px)" },
+    cabfranc: { ground: "#292D3C", ink: "#BDE7C6", brand: "#EAF5EC", btn: "#BDE7C6", onInk: "#292D3C",
+                text: "#EAF5EC", muted: "#D6E7DA", chip: "#BDE7C6", chipText: "#292D3C",
+                rule: "rgba(234,245,236,0.5)", rule2: "rgba(234,245,236,0.32)",
+                stripe: "repeating-linear-gradient(45deg,#242837 0 10px,#2f3445 10px 20px)" }
+  };
+
+  // Wine pages use the main site theme. The per-wine palettes above are kept for reference.
+  paletteFor(key) { return this.palettes.default; }
+
+  syncBody() {
+    const st = this.state;
+    const p = st.page === "wine" ? this.paletteFor(st.wineKey)
+      : st.page === "wines" ? this.palettes.winesIndex
+      : this.palettes.default;
+    document.body.style.background = p.ground;
+  }
+  syncShots() {
+    document.querySelectorAll("img[data-shot]").forEach(img => {
+      const src = img.getAttribute("data-shot");
+      if (src && !src.includes("{{") && img.getAttribute("src") !== src) img.setAttribute("src", src);
+    });
+  }
+  componentDidMount() {
+    let saved = {};
+    try { saved = JSON.parse(localStorage.getItem("kingi-cart") || "{}") || {}; } catch (e) {}
+    const valid = Array.isArray(saved.cart) ? saved.cart.filter(l => this.wines.some(w => w.key === l.key) && l.qty > 0) : [];
+    const params = new URLSearchParams(location.search);
+    const next = {};
+    if (valid.length) next.cart = valid.map(l => { const w = this.wines.find(x => x.key === l.key); return { key: w.key, name: w.title, price: w.price, qty: Math.min(48, Math.floor(l.qty)) }; });
+    if (params.get("checkout") === "cancelled") { next.page = "cart"; next.checkoutError = "Payment was cancelled. Your cart is still here."; }
+    if (location.hash === "#terms") next.page = "terms";
+    if (Object.keys(next).length) this.setState(next);
+    if (params.has("checkout")) history.replaceState(null, "", location.pathname);
+    this.syncBody(); this.syncShots();
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState && prevState.cart !== this.state.cart) {
+      try { localStorage.setItem("kingi-cart", JSON.stringify({ cart: this.state.cart.map(l => ({ key: l.key, qty: l.qty })) })); } catch (e) {}
+    }
+    if (prevState && prevState.page !== this.state.page) window.scrollTo(0, 0);
+    this.syncBody(); this.syncShots();
+  }
+
+  isEmail(v) { return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v); }
+
+  async startCheckout() {
+    const st = this.state;
+    if (!st.checkoutAge) { this.setState({ checkoutTried: true }); return; }
+    if (!st.cart.length) { this.setState({ checkoutError: "Your cart is empty." }); return; }
+    const email = st.email.trim();
+    if (email && !this.isEmail(email)) { this.setState({ checkoutError: "Please check your email address." }); return; }
+    this.setState({ checkingOut: true, checkoutError: "" });
+    try {
+      const res = await fetch("/.netlify/functions/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: st.cart.map(l => ({ key: l.key, qty: l.qty })),
+          email: email || undefined,
+          promoCode: st.promoCode.trim() || undefined,
+          ageConfirmed: true
+        })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.url) throw new Error(data.error || "Checkout isn’t available right now. Please try again shortly.");
+      window.location.assign(data.url);
+    } catch (err) {
+      this.setState({ checkingOut: false, checkoutError: err.message || "Something went wrong. Please try again." });
+    }
+  }
+
+  async sendForm(name, fields) {
+    const body = new URLSearchParams({ "form-name": name, ...fields }).toString();
+    const res = await fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body });
+    if (!res.ok) throw new Error("Couldn’t send just now. Please try again or email kingi.wine@gmail.com.");
+  }
+  async submitJoinForm() {
+    const email = this.state.joinEmail.trim();
+    if (!this.isEmail(email)) { this.setState({ formError: "Please enter a valid email address." }); return; }
+    try { await this.sendForm("join", { email }); this.setState({ joined: true, formError: "" }); }
+    catch (e) { this.setState({ formError: e.message }); }
+  }
+  async submitTradeForm() {
+    const st = this.state;
+    if (!st.tradeBusiness.trim() || !this.isEmail(st.tradeEmail.trim())) { this.setState({ formError: "Please add your business name and a valid email." }); return; }
+    try { await this.sendForm("trade", { business: st.tradeBusiness.trim(), email: st.tradeEmail.trim(), note: st.tradeNote }); this.setState({ tradeSent: true, formError: "" }); }
+    catch (e) { this.setState({ formError: e.message }); }
+  }
+
+  go(page) { return () => this.setState({ page, formError: "" }); }
+  openWine(key) { return () => this.setState({ page: "wine", wineKey: key, qty: 1 }); }
+
+  renderVals() {
+    const s = this.state;
+    const base = this.wines.find(w => w.key === s.wineKey) || this.wines[0];
+    const wine = { ...base, ...this.paletteFor(base.key) };
+    const pages = [
+      ["wines", "Wines"], ["vineyard", "Vineyard"], ["winemaking", "Winemaking"],
+      ["trade", "Trade"], ["join", "Join"]
+    ];
+    const count = s.cart.reduce((n, l) => n + l.qty, 0);
+    const chrome = s.page === "wine" ? wine
+      : s.page === "wines" ? this.palettes.winesIndex
+      : this.palettes.default;
+    const active = key => key === "wines" ? (s.page === "wines" || s.page === "wine") : s.page === key;
+    const nav = s.page === "wine"
+      ? { bg: chrome.ground, brand: chrome.brand, text: chrome.text, muted: chrome.muted, rule: chrome.ink }
+      : { bg: "transparent", brand: chrome.brand, text: chrome.text, muted: chrome.muted, rule: chrome.ink };
+    const navItems = pages.map(([key, label]) => ({
+      label, go: this.go(key),
+      rule: active(key) ? nav.rule : "transparent",
+      tone: active(key) ? nav.text : nav.muted
+    }));
+    navItems.push({
+      label: "Cart (" + count + ")", go: this.go("cart"),
+      rule: s.page === "cart" ? nav.rule : "transparent",
+      tone: s.page === "cart" ? nav.text : nav.muted
+    });
+
+    const setQty = (i, d) => this.setState(st => {
+      const cart = st.cart.map((l, n) => n === i ? { ...l, qty: Math.min(48, Math.max(0, l.qty + d)) } : l).filter(l => l.qty > 0);
+      return { cart };
+    });
+
+    return {
+      navItems, chrome, nav,
+      isHome: s.page === "home", isWines: s.page === "wines", isWine: s.page === "wine",
+      isVineyard: s.page === "vineyard",
+      isWinemaking: s.page === "winemaking", isTrade: s.page === "trade",
+      isCart: s.page === "cart", isJoin: s.page === "join", isTerms: s.page === "terms",
+      goTerms: this.go("terms"),
+      showGate: !s.ageOk, gateTick: s.gateTick, gateNeedsTick: s.gateTried && !s.gateTick,
+      toggleGateTick: e => this.setState({ gateTick: e.target.checked }),
+      enterSite: () => this.setState(st => st.gateTick ? { ageOk: true } : { gateTried: true }),
+      checkoutAge: s.checkoutAge, checkoutNeedsAge: s.checkoutTried && !s.checkoutAge,
+      toggleCheckoutAge: e => this.setState({ checkoutAge: e.target.checked }),
+      goHome: this.go("home"), goWines: this.go("wines"), goWine: this.go("wines"), goJoin: this.go("join"),
+      goTrade: this.go("trade"), goWinemaking: this.go("winemaking"), goVineyard: this.go("vineyard"),
+      wine, showVineyard: !wine.hideVineyard, wineNoShot: !wine.shot, winePhoto: null, wineCutout: wine.shot || null,
+      wineCards: this.wines.map(w => ({ ...w, ...this.palettes.winesIndex, noShot: !w.shot, go: this.openWine(w.key) })),
+      otherWines: this.wines.filter(w => w.key !== wine.key)
+        .map(w => ({ ...w, rule: wine.rule, muted: wine.muted, go: this.openWine(w.key) })),
+      qty: s.qty,
+      inc: () => this.setState(st => ({ qty: st.qty + 1 })),
+      dec: () => this.setState(st => ({ qty: Math.max(1, st.qty - 1) })),
+      addToCart: () => this.setState(st => {
+        const cart = st.cart.slice();
+        const i = cart.findIndex(l => l.key === wine.key);
+        if (i >= 0) cart[i] = { ...cart[i], qty: Math.min(48, cart[i].qty + st.qty) };
+        else cart.push({ key: wine.key, name: wine.title, price: wine.price, qty: Math.min(48, st.qty) });
+        return { cart, page: "cart" };
+      }),
+      cartLines: s.cart.map((l, i) => ({ ...l, total: "$" + (l.qty * (l.price || 0)), inc: () => setQty(i, 1), dec: () => setQty(i, -1) })),
+      cartEmpty: s.cart.length === 0,
+      cartCount: count,
+      cartTotal: "$" + s.cart.reduce((n, l) => n + l.qty * (l.price || 0), 0),
+      shippingLabel: count >= this.freeShippingFrom ? "Free" : "From $14 · free over six bottles",
+      email: s.email, setEmail: e => this.setState({ email: e.target.value, checkoutError: "" }),
+      promoCode: s.promoCode, setPromoCode: e => this.setState({ promoCode: e.target.value, promoMessage: "" }),
+      promoMessage: s.promoMessage || null,
+      applyPromo: () => this.setState(st => ({ promoMessage: st.promoCode.trim() ? "Code " + st.promoCode.trim().toUpperCase() + " will be checked and applied at payment." : "Please enter a promo code." })),
+      checkoutCta: s.checkingOut ? "Taking you to payment…" : "Continue to payment",
+      checkingOut: s.checkingOut, checkoutError: s.checkoutError || null, formError: s.formError || null,
+      placeOrder: () => this.startCheckout(),
+      joinEmail: s.joinEmail, setJoinEmail: e => this.setState({ joinEmail: e.target.value }),
+      joinCta: s.joined ? "You’re on the list" : "Join",
+      submitJoin: () => this.submitJoinForm(),
+      tradeBusiness: s.tradeBusiness, setTradeBusiness: e => this.setState({ tradeBusiness: e.target.value }),
+      tradeEmail: s.tradeEmail, setTradeEmail: e => this.setState({ tradeEmail: e.target.value }),
+      tradeNote: s.tradeNote, setTradeNote: e => this.setState({ tradeNote: e.target.value }),
+      tradeCta: s.tradeSent ? "Enquiry sent" : "Send enquiry",
+      submitTrade: () => this.submitTradeForm()
+    };
+  }
+}
+</script>
+</body>
+</html>

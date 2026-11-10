@@ -1,0 +1,77 @@
+/* Kingi Wines: phone and small-tablet layout.
+   The page markup uses inline styles exported from the design. The page runtime
+   writes them back in the browser's own format ("padding: 56px", with a space),
+   so these attribute selectors match that format and use !important to win. */
+
+html { -webkit-text-size-adjust: 100%; }
+img { max-width: 100%; }
+button:disabled { opacity: 0.6; cursor: progress !important; }
+:focus-visible { outline: 2px solid #2B2D2F; outline-offset: 3px; }
+
+@media (max-width: 900px) {
+  /* Side padding: 56px down to 20px */
+  [style*="padding"][style*="56px"] { padding-left: 20px !important; padding-right: 20px !important; }
+
+  /* Stack every multi-column grid */
+  [style*="grid-template-columns"] { grid-template-columns: minmax(0, 1fr) !important; gap: 24px !important; }
+
+  /* Wines page cards and Winemaking steps: two across */
+  [style*="grid-template-columns: repeat(4, 1fr)"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 16px !important; }
+
+  /* Column dividers make no sense once stacked */
+  [style*="border-right: 2px"], [style*="border-left: 2px"] { border-right: none !important; border-left: none !important; }
+
+  /* Headings */
+  h1 { font-size: 34px !important; }
+  h2 { font-size: 26px !important; }
+  [style*="font-size: 100px"] { font-size: 54px !important; }
+  [style*="font-size: 25px"] { font-size: 18px !important; }
+  [style*="height: 332px"] { height: 200px !important; }
+  [style*="gap: 80px; padding: 64px"] { padding-top: 32px !important; padding-bottom: 32px !important; }
+
+  /* Top navigation: wordmark on its own line, links wrap beneath */
+  [style*="padding: 24px 56px"] { flex-wrap: wrap; gap: 12px; padding-top: 18px !important; padding-bottom: 18px !important; }
+  [style*="gap: 28px; font-size: 13px"] { flex-wrap: wrap; gap: 10px 18px !important; font-size: 12px !important; }
+
+  /* Section headers that sit side by side */
+  [style*="justify-content: space-between; gap: 40px"],
+  [style*="justify-content: space-between; gap: 32px"] { flex-wrap: wrap; gap: 16px !important; }
+
+  /* Landing wine list: bottle on the left, text to the right */
+  .wine-row[style*="grid-template-columns"] { grid-template-columns: 96px minmax(0, 1fr) !important; gap: 8px 18px !important; }
+  .wine-row > span:first-child { grid-row: span 3; height: 200px !important; }
+  .wine-row > span:first-child img { height: 180px !important; }
+  .wine-row > span:nth-child(2) > span:first-child { font-size: 24px !important; }
+  .wine-row > span:nth-child(3) { font-size: 15px !important; }
+  .wine-row > span:nth-child(4) { justify-self: start; }
+
+  /* Wines page bottles */
+  [style*="height: 452px"] { height: 300px !important; padding: 20px 0 !important; }
+  img[style*="height: 388px"] { height: 250px !important; }
+
+  /* Single wine page bottle */
+  [style*="height: 640px"] { height: 420px !important; }
+
+  /* Landing photo panels */
+  [style*="gap: 80px; padding: 48px"] { gap: 32px !important; padding-top: 24px !important; padding-bottom: 40px !important; }
+  [style*="height: 400px"] { height: 300px !important; padding: 24px 20px !important; }
+
+  /* Winemaking portrait */
+  [style*="min-height: 520px; display: flex"] { min-height: 420px !important; }
+
+  img[style*="width: 510px; height: 604px"] { inset: 0 !important; width: 100% !important; height: 100% !important; transform: none !important; }
+
+  /* Vineyard photos */
+  [style*="height: 420px"] { height: 320px !important; }
+
+  /* Cart line: name on top, quantity and price beneath */
+  [style*="grid-template-columns: 1fr 120px 100px"] { grid-template-columns: minmax(0, 1fr) auto !important; gap: 10px 16px !important; }
+  [style*="grid-template-columns: 1fr 120px 100px"] > :first-child { grid-column: 1 / -1; }
+
+  /* Join page had a fixed minimum height */
+  [style*="min-height: 520px"][style*="border-top"] { min-height: 0 !important; }
+}
+
+@media (max-width: 420px) {
+  [style*="grid-template-columns: repeat(4, 1fr); padding-bottom"] { grid-template-columns: minmax(0, 1fr) !important; }
+}

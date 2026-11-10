@@ -1,0 +1,13 @@
+{
+  "name": "kingi-wines-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Kingi Wines website with Stripe Checkout on Netlify",
+  "type": "module",
+  "scripts": {
+    "dev": "netlify dev"
+  },
+  "dependencies": {
+    "stripe": "17.7.0"
+  }
+}
