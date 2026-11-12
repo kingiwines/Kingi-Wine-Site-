@@ -37,6 +37,13 @@
   .preorder-tag.is-filled { background: #2B2D2F; color: #EDEDED; }
   .preorder-tag:hover, .wine-row:focus-visible .preorder-tag { background: #2B2D2F; color: #EDEDED; }
   .preorder-tag.is-filled:hover, .wine-row:focus-visible .preorder-tag.is-filled { background: #EDEDED; color: #2B2D2F; }
+  .wine-more { border-top: 1px solid currentColor; }
+  .wine-more:last-of-type { border-bottom: 1px solid currentColor; }
+  .wine-more summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 16px 0; font-size: 15px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+  .wine-more summary::-webkit-details-marker { display: none; }
+  .wine-more summary::after { content: "+"; font-size: 22px; font-weight: 500; line-height: 1; }
+  .wine-more[open] summary::after { content: "\2212"; }
+  .wine-more p { margin: 0 0 18px; font-size: 16px; line-height: 1.6; text-wrap: pretty; }
   @media (prefers-reduced-motion: reduce) { .wine-row .wine-bottle, .preorder-tag { transition: none; } }
 </style>
 </helmet>
@@ -115,6 +122,23 @@
           <div style="position:relative; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#F1F4E6">Vineyard</div><div style="position:relative; font-size:26px; font-weight:700; letter-spacing:-0.01em; color:#F7F8EE; max-width:22ch">Two blocks, Onetangi Valley and Church Bay.</div>
           <div style="position:relative; align-self:flex-start; margin-top:4px; font-size:14px; font-weight:600; color:#F7F8EE; border-bottom:2px solid #C8B590">See the sites</div>
         </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px">
+          <div style="display:flex; flex-direction:column; gap:14px">
+            <div style="font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#5A5E62">Follow along</div>
+            <div style="height:352px; box-sizing:border-box; background:#2B2D2F; color:#EDEDED; padding:36px; display:flex; flex-direction:column; justify-content:space-between">
+              <div style="display:flex; align-items:center; gap:12px; font-size:15px; font-weight:600"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"></circle></svg><span>@kingi.wines</span></div>
+              <div style="display:flex; flex-direction:column; gap:12px">
+                <div style="font-size:30px; font-weight:800; line-height:1.1; letter-spacing:-0.01em; max-width:16ch">From the vines to the glass.</div>
+                <div style="font-size:15px; line-height:1.55; color:#C9CCD3; max-width:40ch">Harvest, ferments and the odd long lunch on Waiheke. Follow Kingi on Instagram.</div>
+              </div>
+              <a href="https://www.instagram.com/kingi.wines/" target="_blank" rel="noopener" style="align-self:flex-start; background:#EDEDED; color:#2B2D2F; font-size:15px; font-weight:700; padding:14px 22px">Follow on Instagram</a>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:14px">
+            <div style="font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#5A5E62">Listen</div>
+            <iframe title="Kingi Wines playlist on Spotify" src="https://open.spotify.com/embed/playlist/63pM46kQQg3DR3S55lbiCl?utm_source=generator&amp;theme=0" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border:0; border-radius:12px; display:block"></iframe>
+          </div>
+        </div>
       </div>
     </div>
   </sc-if>
@@ -184,7 +208,19 @@
           <div style="display:flex; flex-direction:column; gap:22px">
             <sc-if value="{{ wine.kicker }}" hint-placeholder-val="{{ true }}"><div style="font-size:13px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:{{ wine.muted }}">{{ wine.kicker }}</div></sc-if>
             <h1 style="margin:0; font-size:56px; line-height:0.98; font-weight:800; letter-spacing:-0.02em; color:{{ wine.ink }}">{{ wine.name }}<br>2026</h1>
-            <p style="margin:0; max-width:46ch; font-size:17px; line-height:1.6; text-wrap:pretty">{{ wine.note }}</p>
+            <p style="margin:0; max-width:46ch; font-size:17px; line-height:1.6; text-wrap:pretty">{{ wine.intro }}</p>
+            <div style="max-width:52ch">
+              <details class="wine-more">
+                <summary>Tasting Notes</summary>
+                <p>{{ wine.tasting }}</p>
+                <h3 style="margin:4px 0 6px; font-size:13px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase">Pairings</h3>
+                <p>{{ wine.pairings }}</p>
+              </details>
+              <details class="wine-more">
+                <summary>Winemaking</summary>
+                <p>{{ wine.note }}</p>
+              </details>
+            </div>
             <div style="display:flex; flex-direction:column; border-top:2px solid {{ wine.rule }}">
               <sc-if value="{{ showVineyard }}" hint-placeholder-val="{{ true }}">
               <div style="display:flex; justify-content:space-between; padding:14px 0; border-bottom:1px solid {{ wine.rule2 }}; font-size:15px"><span style="color:{{ wine.muted }}">Vineyard</span><span style="font-weight:600">{{ wine.vineyard }}</span></div>
@@ -500,19 +536,19 @@ class Component extends DCLogic {
   freeShippingFrom = 6;   // bottles
 
   wines = [
-    { key: "syrah", price: 62, priceLabel: "$62", nick: "‘Bell’", variety: "Syrah", vintage: "2026", short: "Single vineyard expression from the Onetangi Valley. Naturally fermented with 30% whole bunch, aged 8 months in French Oak.", name: "‘Bell’ Syrah", title: "‘Bell’ Syrah 2026", style: "Single vineyard",
+    { key: "syrah", intro: "‘Bell’ is paying homage to a dear friend of the Kingston family, Gary Bell. The character of the wine presents a refined elegance, living up to its name.", tasting: "Tasting notes coming soon.", price: 62, priceLabel: "$62", nick: "‘Bell’", variety: "Syrah", vintage: "2026", short: "Single vineyard expression from the Onetangi Valley. Naturally fermented with 30% whole bunch, aged 8 months in French Oak.", name: "‘Bell’ Syrah", title: "‘Bell’ Syrah 2026", style: "Single vineyard",
       kicker: "Single vineyard · Onetangi Valley", vineyard: "Onetangi Valley", bottles: 800, production: "800 bottles",
       shot: "uploads/syrah-bottle.webp",
-      note: "Hand-picked from an ultra premium block above Onetangi Valley, fermented with indigenous yeast and 30% whole bunch clusters. Left on skins for 18 days, where balance was found. Aged 8 months in French Oak barriques." },
-    { key: "cabfranc", price: 55, priceLabel: "$55", nick: "‘Hartley’", variety: "Cabernet Franc", vintage: "2026", short: "Sourced from the organically managed Jurassic Ridge Vineyard. A single vineyard wine, naturally fermented, aged 8 months in seasoned French and American Oak.", name: "‘Hartley’ Cabernet Franc", title: "‘Hartley’ Cabernet Franc 2026", style: "Single vineyard",
+      note: "Hand-picked from an ultra premium block above Onetangi Valley, fermented with indigenous yeast and 30% whole bunch clusters. The skins were hand plunged twice daily for 18 days, where balance was found before pressing. Aged 8 months in French Oak barriques." },
+    { key: "cabfranc", tasting: "Tasting notes coming soon.", price: 55, priceLabel: "$55", nick: "‘Hartley’", variety: "Cabernet Franc", vintage: "2026", short: "Sourced from the organically managed Jurassic Ridge Vineyard. A single vineyard wine, naturally fermented, aged 8 months in seasoned French and American Oak.", name: "‘Hartley’ Cabernet Franc", title: "‘Hartley’ Cabernet Franc 2026", style: "Single vineyard",
       kicker: "Single vineyard · Church Bay", vineyard: "Jurassic Ridge", bottles: 600, production: "600 bottles",
       shot: "uploads/cabfranc-bottle.webp",
       note: "From the organically managed vineyard at Church Bay, closer to the water and cooler through the season. Naturally fermented, aged 8 months in seasoned French oak, bottled unfined." },
-    { key: "chilled", price: 39, priceLabel: "$39", nick: "‘Bonnie’", variety: "Chilled Red", vintage: "2026", short: "A modern blend of Syrah and Cabernet Franc. Drained after 5 days of skin contact. Light, aromatic, served cold.", name: "‘Bonnie’ Chilled Red", title: "‘Bonnie’ Chilled Red 2026", style: "Blend",
+    { key: "chilled", pairings: "Fresh Fish Crudo, Baked Salmon, Balsamic Vinaigrette Oysters", intro: "‘Bonnie’ is the bright and vibrant child of the Syrah and Cabernet Franc. Made for the in between, the long summer nights and the inner child.", tasting: "Light, aromatic and youthful. Impressions of Raspberry, Boysenberry and Lemon curd. Served cold.", price: 39, priceLabel: "$39", nick: "‘Bonnie’", variety: "Chilled Red", vintage: "2026", short: "A modern Syrah and Cabernet Franc blend. Light, aromatic and youthful. Impressions of Raspberry, Boysenberry and Lemon curd. Served cold.", name: "‘Bonnie’ Chilled Red", title: "‘Bonnie’ Chilled Red 2026", style: "Blend",
       kicker: "", vineyard: "Onetangi Valley and Church Bay", hideVineyard: true, bottles: 250, production: "250 bottles",
       shot: "uploads/chilled-bottle.webp",
       note: "After 5 days of maceration juice was drained from the Syrah and Cabernet Franc ferments. The fermenting juice was transferred to stainless steel tank to complete fermentation. A touch of Albariño lees were added to the ferment giving the wine an aromatic lift. The wine was settled, lightly filtered and bottled soon after ferment to preserve the light aromatic style." },
-    { key: "rose", price: 32, priceLabel: "$32", nick: "‘Brae’", variety: "Rosé", vintage: "2026", short: "Whole bunch pressed and cool fermented in stainless steel. Fresh, bright fruit aromas.", name: "‘Brae’ Rosé", title: "‘Brae’ Rosé 2026", style: "Blend",
+    { key: "rose", tasting: "Tasting notes coming soon.", price: 32, priceLabel: "$32", nick: "‘Brae’", variety: "Rosé", vintage: "2026", short: "Whole bunch pressed and cool fermented in stainless steel. Fresh, bright fruit aromas.", name: "‘Brae’ Rosé", title: "‘Brae’ Rosé 2026", style: "Blend",
       kicker: "", vineyard: "Onetangi Valley and Church Bay", hideVineyard: true, bottles: 250, production: "250 bottles",
       shot: "uploads/rose-bottle.webp",
       note: "Gently whole bunch pressed to stainless steel tank. Settled and racked prior to fermentation. Fermented under cool temperatures in stainless steel tanks to preserve and amplify beautiful fruit aromas." }
@@ -634,7 +670,7 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state;
     const base = this.wines.find(w => w.key === s.wineKey) || this.wines[0];
-    const wine = { ...base, ...this.paletteFor(base.key) };
+    const wine = { ...base, intro: base.intro || base.short, pairings: base.pairings || "Pairings coming soon.", ...this.paletteFor(base.key) };
     const pages = [
       ["wines", "Wines"], ["vineyard", "Vineyard"], ["winemaking", "Winemaking"],
       ["trade", "Trade"], ["join", "Join"]
