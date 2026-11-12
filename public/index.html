@@ -423,7 +423,7 @@
           <sc-if value="{{ checkoutError }}" hint-placeholder-val="{{ false }}">
             <div role="alert" style="font-size:14px; color:#8A2A1F">{{ checkoutError }}</div>
           </sc-if>
-          <div style="font-size:12px; line-height:1.5; color:#5A5E62">Shipping under six bottles: Auckland incl. Waiheke $14 · rest of North Island $18 · South Island $23. Choose your region, enter your delivery address and pay securely with Stripe on the next page. Prices in NZD.</div>
+          <div style="font-size:12px; line-height:1.5; color:#5A5E62">Free shipping on orders of $300 or more. Choose your shipping region, enter your delivery address and pay securely with Stripe on the next page. Prices in NZD.</div>
           <div style="display:flex; flex-direction:column; gap:4px; border-top:1px solid rgba(43,45,47,0.25); padding-top:14px; font-size:12px; line-height:1.5; color:#5A5E62">
             <span>Licensee: Kingi Wines Limited</span>
             <span>Off-licence 007/OFF/373/2026 · Expires 6 November 2027</span>
@@ -533,7 +533,8 @@ class Component extends DCLogic {
             checkingOut: false, checkoutError: "", formError: "" };
 
   // Shown on the site only. The prices actually charged live in netlify/functions/catalogue.js.
-  freeShippingFrom = 6;   // bottles
+  freeShippingFromNZD = 300;   // must match SHIPPING.freeFromNZD in netlify/shop/catalogue.mjs
+  freeShippingCodes = ["WHANAU"]; // must match FREE_SHIPPING_PROMO_CODES in netlify/shop/catalogue.mjs
 
   wines = [
     { key: "syrah", intro: "‘Bell’ is paying homage to a dear friend of the Kingston family, Gary Bell. The character of the wine presents a refined elegance, living up to its name.", tasting: "Tasting notes coming soon.", price: 62, priceLabel: "$62", nick: "‘Bell’", variety: "Syrah", vintage: "2026", short: "Single vineyard expression from the Onetangi Valley. Naturally fermented with 30% whole bunch, aged 8 months in French Oak.", name: "‘Bell’ Syrah", title: "‘Bell’ Syrah 2026", style: "Single vineyard",
@@ -608,13 +609,23 @@ class Component extends DCLogic {
     if (location.hash === "#terms") next.page = "terms";
     if (Object.keys(next).length) this.setState(next);
     if (params.has("checkout")) history.replaceState(null, "", location.pathname);
+    this._lastPage = this.state.page + "|" + this.state.wineKey;
+    this._lastCart = JSON.stringify({ cart: (next.cart || []).map(l => ({ key: l.key, qty: l.qty })) });
     this.syncBody(); this.syncShots();
   }
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState && prevState.cart !== this.state.cart) {
-      try { localStorage.setItem("kingi-cart", JSON.stringify({ cart: this.state.cart.map(l => ({ key: l.key, qty: l.qty })) })); } catch (e) {}
+  componentDidUpdate() {
+    // Remember what was last rendered, so we don't rely on the runtime passing prevState.
+    const cartJson = JSON.stringify({ cart: this.state.cart.map(l => ({ key: l.key, qty: l.qty })) });
+    if (this._lastCart !== cartJson) {
+      try { localStorage.setItem("kingi-cart", cartJson); } catch (e) {}
+      this._lastCart = cartJson;
     }
-    if (prevState && prevState.page !== this.state.page) window.scrollTo(0, 0);
+    const pageKey = this.state.page + "|" + this.state.wineKey;
+    if (this._lastPage !== undefined && this._lastPage !== pageKey) {
+      window.scrollTo(0, 0);
+      requestAnimationFrame(() => window.scrollTo(0, 0));
+    }
+    this._lastPage = pageKey;
     this.syncBody(); this.syncShots();
   }
 
@@ -731,11 +742,11 @@ class Component extends DCLogic {
       cartEmpty: s.cart.length === 0,
       cartCount: count,
       cartTotal: "$" + s.cart.reduce((n, l) => n + l.qty * (l.price || 0), 0),
-      shippingLabel: count >= this.freeShippingFrom ? "Free" : "From $14 · free over six bottles",
+      shippingLabel: (s.cart.reduce((n, l) => n + l.qty * (l.price || 0), 0) >= this.freeShippingFromNZD || (s.promoMessage && this.freeShippingCodes.includes(s.promoCode.trim().toUpperCase()))) ? "Free" : "Calculated at payment",
       email: s.email, setEmail: e => this.setState({ email: e.target.value, checkoutError: "" }),
       promoCode: s.promoCode, setPromoCode: e => this.setState({ promoCode: e.target.value, promoMessage: "" }),
       promoMessage: s.promoMessage || null,
-      applyPromo: () => this.setState(st => ({ promoMessage: st.promoCode.trim() ? "Code " + st.promoCode.trim().toUpperCase() + " will be checked and applied at payment." : "Please enter a promo code." })),
+      applyPromo: () => this.setState(st => { const c = st.promoCode.trim().toUpperCase(); return { promoMessage: !c ? "Please enter a promo code." : this.freeShippingCodes.includes(c) ? "Code " + c + " added: free shipping, with the discount applied at payment." : "Code " + c + " will be checked and applied at payment." }; }),
       checkoutCta: s.checkingOut ? "Taking you to payment…" : "Continue to payment",
       checkingOut: s.checkingOut, checkoutError: s.checkoutError || null, formError: s.formError || null,
       placeOrder: () => this.startCheckout(),
