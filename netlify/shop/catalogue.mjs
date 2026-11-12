@@ -11,8 +11,8 @@ export const WINES = {
 };
 
 export const SHIPPING = {
-  freeFromBottles: 6,          // free shipping at this many bottles or more
-  // Courier rates (NZD) for orders under six bottles. The customer picks their region
+  freeFromNZD: 300,            // free shipping when the wine total (before any promo code) is this much or more
+  // Courier rates (NZD) for orders under the free-shipping amount. The customer picks their region
   // on the Stripe payment page. Check the region against the delivery address before sending.
   regions: [
     { name: "Auckland (incl. Waiheke)", priceNZD: 14 },
@@ -21,6 +21,10 @@ export const SHIPPING = {
   ],
   label: "NZ courier, signature required (18+)",
 };
+
+// Promo codes that ALSO give free shipping (any order size) when typed in the cart on the site.
+// The discount itself (e.g. 15% off) is set up in Stripe > Product catalogue > Coupons.
+export const FREE_SHIPPING_PROMO_CODES = ["WHANAU"];
 
 export const MAX_BOTTLES_PER_WINE = 48;
 
