@@ -3,7 +3,7 @@
 // Prices come from catalogue.mjs on the server; the browser only sends wine keys and quantities.
 
 import Stripe from "stripe";
-import { WINES, SHIPPING, MAX_BOTTLES_PER_WINE, LICENCE_LINE } from "../shop/catalogue.mjs";
+import { WINES, SHIPPING, MAX_BOTTLES_PER_WINE, LICENCE_LINE, FREE_SHIPPING_PROMO_CODES } from "../shop/catalogue.mjs";
 
 const json = (status, body) =>
   new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
@@ -39,8 +39,10 @@ export default async (req) => {
   }
   const bottles = [...merged.values()].reduce((a, b) => a + b, 0);
 
-  // Shipping: free from six bottles, otherwise the customer chooses their region on Stripe's page.
-  const freeShipping = bottles >= SHIPPING.freeFromBottles;
+  // Shipping: free when the wine total reaches SHIPPING.freeFromNZD, otherwise the customer chooses their region on Stripe's page.
+  const subtotalNZD = [...merged].reduce((sum, [key, qty]) => sum + WINES[key].priceNZD * qty, 0);
+  const promoTyped = typeof body.promoCode === "string" ? body.promoCode.trim().toUpperCase() : "";
+  const freeShipping = subtotalNZD >= SHIPPING.freeFromNZD || FREE_SHIPPING_PROMO_CODES.includes(promoTyped);
   const shippingOptions = (freeShipping
     ? [{ name: `Free shipping: ${SHIPPING.label}`, priceNZD: 0 }]
     : SHIPPING.regions.map(r => ({ name: `${r.name}: ${SHIPPING.label}`, priceNZD: r.priceNZD }))
