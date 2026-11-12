@@ -19,7 +19,7 @@ The Kingi Wines site (kingiwines.com), set up for **GitHub + Netlify + Stripe Ch
 
 ## 1. Before you start: two settings to fill in
 
-**Shipping.** Set in `netlify/shop/catalogue.mjs`: free from six bottles. Under six, the customer picks their region on Stripe's payment page: Auckland incl. Waiheke $14, rest of North Island $18, South Island $23. Stripe can't check the region against the address automatically, so glance at each order's address before you send it.
+**Shipping.** Set in `netlify/shop/catalogue.mjs`: free when the wine total is $300 or more (before any promo code). Under that, the customer picks their region on Stripe's payment page: Auckland incl. Waiheke $14, rest of North Island $18, South Island $23. Stripe can't check the region against the address automatically, so glance at each order's address before you send it. If you change the $300, also change `freeShippingFromNZD` in `public/index.html`.
 
 **Prices.** These are already set ($62 / $55 / $39 / $32). If you ever change one, change it in **both**:
 1. `netlify/shop/catalogue.mjs`: what Stripe charges.
