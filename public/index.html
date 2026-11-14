@@ -541,7 +541,7 @@ class Component extends DCLogic {
       kicker: "Single vineyard · Onetangi Valley", vineyard: "Onetangi Valley", bottles: 800, production: "800 bottles",
       shot: "uploads/syrah-bottle.webp",
       note: "Hand-picked from an ultra premium block above Onetangi Valley, fermented with indigenous yeast and 30% whole bunch clusters. The skins were hand plunged twice daily for 18 days, where balance was found before pressing. Aged 8 months in French Oak barriques." },
-    { key: "cabfranc", intro: "‘Hartley’ a dedication to the other half of Kingi. A product of passion, a reflection of environment, a wine full of life.", tasting: "On first impressions lifted aromas of tamarillo, violets and vanillin exude from the glass. Floral notes of rose and thyme emphasise a true varietal expression.\n\nThe palate has a harmonious balance of acid and concentration. Hints of savoury undertones and subtle tannins give the wine length, suiting this fruit forward style.\n\nDrink now – 2036", price: 55, priceLabel: "$55", nick: "‘Hartley’", variety: "Cabernet Franc", vintage: "2026", short: "Sourced from the organically managed Jurassic Ridge Vineyard. Expressive floral notes, violets, rose, tamarillo and vanillin.", name: "‘Hartley’ Cabernet Franc", title: "‘Hartley’ Cabernet Franc 2026", style: "Single vineyard",
+    { key: "cabfranc", pairings: "Woodfire Pizza, Steak with Chimichurri, Grilled Peach, Prosciutto and Burrata Salad", intro: "‘Hartley’ a dedication to the other half of Kingi. A product of passion, a reflection of environment, a wine full of life.", tasting: "On first impressions lifted aromas of tamarillo, violets and vanillin exude from the glass. Floral notes of rose and thyme emphasise a true varietal expression.\n\nThe palate has a harmonious balance of acid and concentration. Hints of savoury undertones and subtle tannins give the wine length, suiting this fruit forward style.\n\nDrink now – 2036", price: 55, priceLabel: "$55", nick: "‘Hartley’", variety: "Cabernet Franc", vintage: "2026", short: "Sourced from the organically managed Jurassic Ridge Vineyard. Expressive floral notes, violets, rose, tamarillo and vanillin.", name: "‘Hartley’ Cabernet Franc", title: "‘Hartley’ Cabernet Franc 2026", style: "Single vineyard",
       kicker: "Single vineyard · Church Bay", vineyard: "Jurassic Ridge", bottles: 600, production: "600 bottles",
       shot: "uploads/cabfranc-bottle.webp",
       note: "Hand picked into small crates from the organically managed Jurassic Ridge Vineyard. The fruit was 100% crushed and destemmed. Allowed to ferment naturally. The skins cap was plunged by hand twice daily for 18 days. Pressed off using a traditional basket press. The wine was transferred to seasoned French and American oak barrels to age for 8 months." },
@@ -653,7 +653,10 @@ class Component extends DCLogic {
       if (!res.ok || !data.url) throw new Error(data.error || "Checkout isn’t available right now. Please try again shortly.");
       window.location.assign(data.url);
     } catch (err) {
-      this.setState({ checkingOut: false, checkoutError: err.message || "Something went wrong. Please try again." });
+      const offline = err instanceof TypeError || /load failed|failed to fetch|network/i.test(err && err.message || "");
+      this.setState({ checkingOut: false, checkoutError: offline
+        ? "We couldn’t connect to the checkout. Please check your internet connection and try again in a moment."
+        : (err.message || "Something went wrong. Please try again.") });
     }
   }
 
