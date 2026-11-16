@@ -50,14 +50,23 @@
 
 <div style="width:100%; margin:0 auto; background:{{ chrome.ground }}; color:{{ chrome.text }}; min-height:100vh">
 
-  <div style="display:flex; align-items:center; justify-content:space-between; padding:24px 56px; background:{{ nav.bg }}">
-    <div onClick="{{ goHome }}" style="font-size:16px; font-weight:800; letter-spacing:0.34em; text-transform:uppercase; color:{{ nav.brand }}; cursor:pointer">Kingi</div>
-    <div style="display:flex; gap:28px; font-size:13px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase">
+  <div class="site-nav" style="display:flex; align-items:center; justify-content:space-between; padding:24px 56px; background:{{ nav.bg }}">
+    <button type="button" class="nav-toggle" aria-label="{{ menuLabel }}" aria-expanded="{{ menuExpanded }}" onClick="{{ toggleMenu }}" style="color:{{ nav.text }}"><span></span><span></span><span></span></button>
+    <div class="nav-brand" onClick="{{ goHome }}" style="font-size:16px; font-weight:800; letter-spacing:0.34em; text-transform:uppercase; color:{{ nav.brand }}; cursor:pointer">Kingi</div>
+    <div class="nav-links" style="display:flex; gap:28px; font-size:13px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase">
       <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="6">
         <span onClick="{{ item.go }}" style="cursor:pointer; padding-bottom:3px; border-bottom:2px solid {{ item.rule }}; color:{{ item.tone }}">{{ item.label }}</span>
       </sc-for>
     </div>
+    <span class="nav-cart" onClick="{{ goCart }}" style="color:{{ nav.text }}">{{ cartLabel }}</span>
   </div>
+  <sc-if value="{{ menuOpen }}">
+    <div class="nav-menu" style="background:{{ nav.bg }}">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="6">
+        <button type="button" onClick="{{ item.go }}" style="color:{{ item.tone }}; border-bottom-color:{{ nav.muted }}">{{ item.label }}</button>
+      </sc-for>
+    </div>
+  </sc-if>
 
   <!-- ============ HOME ============ -->
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
@@ -292,13 +301,13 @@
   <!-- ============ WINEMAKING ============ -->
   <sc-if value="{{ isWinemaking }}" hint-placeholder-val="{{ true }}">
     <div>
-      <div style="display:grid; grid-template-columns:1fr 460px">
-        <div style="display:flex; flex-direction:column; gap:24px; padding:56px">
+      <div class="wm-hero" style="display:grid; grid-template-columns:1fr 460px">
+        <div class="wm-text" style="display:flex; flex-direction:column; gap:24px; padding:56px">
           <div style="font-size:13px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#5A5E62">Winemaking</div>
           <h1 style="margin:0; max-width:20ch; font-size:48px; line-height:1.02; font-weight:800; letter-spacing:-0.02em">Naturally fermented, and left alone.</h1>
-          <p style="margin:0; max-width:56ch; font-size:17px; line-height:1.6; text-wrap:pretty">Having learnt under some of New Zealand's best winemakers, Josh Kingston “Kingi” makes wines with a minimalist intervention mindset.<br><br>Having gained international experience through multiple vintages in the Rhone Valley and Sonoma Coast, with ultra premium producers. Josh knows the importance of pure fruit expression.&nbsp;<br><br>Waiheke vineyards produce some of New Zealand's finest wines. A unique sense of place in every bottle. Allowing the fruit to truly represent a moment in time.&nbsp;<br><br><br><br></p>
+          <p class="wm-body" style="margin:0; max-width:56ch; font-size:17px; line-height:1.6; text-wrap:pretty">Having learnt under some of New Zealand's best winemakers, Josh Kingston “Kingi” makes wines with a minimalist intervention mindset.<br><br>Having gained international experience through multiple vintages in the Rhone Valley and Sonoma Coast, with ultra premium producers. Josh knows the importance of pure fruit expression.&nbsp;<br><br>Waiheke vineyards produce some of New Zealand's finest wines. A unique sense of place in every bottle. Allowing the fruit to truly represent a moment in time.&nbsp;<br><br><br><br></p>
         </div>
-        <div style="min-height:520px; display:flex; align-items:flex-end; padding:24px; position:relative; overflow:hidden">
+        <div class="wm-photo" style="min-height:520px; display:flex; align-items:flex-end; padding:24px; position:relative; overflow:hidden">
           <img src="uploads/josh-harvest.jpg" alt="Josh Kingston with a bin of picked fruit" style="position: absolute; inset: 0; width: 510px; height: 604px; object-fit: cover; object-position: center 46%; transform: scale(1.35); transform-origin: center 46%; filter: grayscale(1) contrast(1.05); left: -34px; top: 16px">
         </div>
       </div>
@@ -678,7 +687,7 @@ class Component extends DCLogic {
     catch (e) { this.setState({ formError: e.message }); }
   }
 
-  go(page) { return () => this.setState({ page, formError: "" }); }
+  go(page) { return () => this.setState({ page, formError: "", menuOpen: false }); }
   openWine(key) { return () => this.setState({ page: "wine", wineKey: key, qty: 1 }); }
 
   renderVals() {
@@ -715,6 +724,9 @@ class Component extends DCLogic {
 
     return {
       navItems, chrome, nav,
+      menuOpen: !!s.menuOpen, menuExpanded: s.menuOpen ? "true" : "false", menuLabel: s.menuOpen ? "Close menu" : "Open menu",
+      toggleMenu: () => this.setState(st => ({ menuOpen: !st.menuOpen })),
+      goCart: this.go("cart"), cartLabel: "Cart (" + count + ")",
       isHome: s.page === "home", isWines: s.page === "wines", isWine: s.page === "wine",
       isVineyard: s.page === "vineyard",
       isWinemaking: s.page === "winemaking", isTrade: s.page === "trade",

@@ -8,7 +8,32 @@ img { max-width: 100%; }
 button:disabled { opacity: 0.6; cursor: progress !important; }
 :focus-visible { outline: 2px solid #2B2D2F; outline-offset: 3px; }
 
+/* Phone menu: hidden on wider screens */
+.nav-toggle, .nav-cart, .nav-menu { display: none; }
+.nav-toggle { background: none; border: 0; padding: 10px 0; cursor: pointer; flex-direction: column; gap: 5px; width: 32px; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: currentColor; transition: transform 0.2s ease, opacity 0.2s ease; }
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.nav-cart { cursor: pointer; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+.nav-menu button { display: block; width: 100%; text-align: left; background: none; border: 0; border-bottom: 1px solid; padding: 16px 0; font: inherit; font-size: 18px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
+.nav-menu button:last-child { border-bottom: 0; }
+
 @media (max-width: 900px) {
+  /* Top bar: menu button left, Kingi centred, cart right */
+  .site-nav { display: grid !important; grid-template-columns: 1fr auto 1fr; align-items: center; }
+  .site-nav .nav-links { display: none !important; }
+  .site-nav .nav-toggle { display: flex; justify-self: start; }
+  .site-nav .nav-brand { justify-self: center; text-indent: 0.34em; }
+  .site-nav .nav-cart { display: block; justify-self: end; }
+  .nav-menu { display: block; padding: 4px 20px 16px; }
+
+  /* Winemaking: label and title, then the photo, then the text */
+  .wm-hero { display: flex !important; flex-direction: column; gap: 20px; padding: 32px 20px 8px; }
+  .wm-hero > .wm-text { display: contents !important; }
+  .wm-hero .wm-photo { order: 1; min-height: 360px !important; margin: 0 -20px; }
+  .wm-hero .wm-body { order: 2; }
+
   /* Side padding: 56px down to 20px */
   [style*="padding"][style*="56px"] { padding-left: 20px !important; padding-right: 20px !important; }
 
