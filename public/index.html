@@ -67,12 +67,12 @@
       
 
       <div style="height: 332px; background: #EDEDED; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 12px; padding: 0 56px; box-sizing: border-box; width: 100%">
-        <div style="font-size: 100px; font-weight: 600; letter-spacing: 0.42em; text-indent: 0.42em; color: #4A4D50">KINGI</div><div style="font-size: 25px; font-weight: 700; color: #2B2D2F">Waiheke Island</div>
+        <div style="font-size: 112px; font-weight: 600; letter-spacing: 0.42em; text-indent: 0.42em; color: #4A4D50">KINGI</div><div style="font-size: 25px; font-weight: 700; color: #2B2D2F">Waiheke Island</div>
         
       </div><div style="display:grid; grid-template-columns:1fr 380px; gap:80px; padding:64px 56px 56px">
         <div style="display:flex; flex-direction:column; gap:28px">
           <div style="width:64px; height:3px; background:#2B2D2F"></div>
-          <h1 style="margin:0; max-width:18ch; font-size:52px; line-height:1.02; font-weight:800; letter-spacing:-0.02em; color:#2B2D2F">Unique Single Vineyard Reds from Waiheke Island.</h1>
+          <h1 style="margin:0; max-width:18ch; font-size:46px; line-height:1.02; font-weight:800; letter-spacing:-0.02em; color:#2B2D2F">Unique Single Vineyard Reds from Waiheke Island.</h1>
           <div style="display:flex; gap:12px; padding-top:8px">
             <span onClick="{{ goWine }}" style="background:#2B2D2F; color:#EDEDED; font-size:15px; font-weight:600; padding:14px 22px; cursor:pointer">Shop the 2026 release</span>
             <span onClick="{{ goJoin }}" style="font-size:15px; font-weight:600; padding:14px 4px; border-bottom:2px solid #2B2D2F; color:#2B2D2F; white-space:nowrap; cursor:pointer">Join the list</span>
@@ -146,7 +146,7 @@
   <!-- ============ WINES INDEX ============ -->
   <sc-if value="{{ isWines }}" hint-placeholder-val="{{ true }}">
     <div>
-      <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:40px; padding:48px 56px 40px; border-top:2px solid {{ chrome.rule }}">
+      <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:40px; padding:48px 56px 40px">
         <h1 style="margin:0; max-width:20ch; font-size:44px; line-height:1.02; font-weight:800; letter-spacing:-0.02em">The 2026 release.. Two varieties, Four wines. A minimilist approach&nbsp;&nbsp;</h1>
         <div style="font-size:15px; line-height:1.5; max-width:32ch"><br></div>
       </div>
@@ -258,7 +258,7 @@
   <!-- ============ VINEYARD ============ -->
   <sc-if value="{{ isVineyard }}" hint-placeholder-val="{{ true }}">
     <div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; border-top:2px solid rgba(43,45,47,0.5); border-bottom:2px solid rgba(43,45,47,0.5)">
+      <div style="display:grid; grid-template-columns:1fr 1fr; border-bottom:2px solid rgba(43,45,47,0.5)">
         <div style="display:flex; flex-direction:column; gap:20px; padding:56px; border-right:2px solid rgba(43,45,47,0.5)">
           <div style="font-size:13px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#5A5E62">Onetangi Valley</div>
           <h2 style="margin:0; font-size:38px; line-height:1.05; font-weight:800; letter-spacing:-0.02em">The Pinnacle of Waiheke Syrah, Overlooking Onetangi Valley&nbsp;</h2>
@@ -292,7 +292,7 @@
   <!-- ============ WINEMAKING ============ -->
   <sc-if value="{{ isWinemaking }}" hint-placeholder-val="{{ true }}">
     <div>
-      <div style="display:grid; grid-template-columns:1fr 460px; border-top:2px solid rgba(43,45,47,0.5)">
+      <div style="display:grid; grid-template-columns:1fr 460px">
         <div style="display:flex; flex-direction:column; gap:24px; padding:56px">
           <div style="font-size:13px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#5A5E62">Winemaking</div>
           <h1 style="margin:0; max-width:20ch; font-size:48px; line-height:1.02; font-weight:800; letter-spacing:-0.02em">Naturally fermented, and left alone.</h1>
@@ -315,13 +315,13 @@
         </div>
         <div style="padding:36px 32px; display:flex; flex-direction:column; gap:10px">
           <div style="font-size:13px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#5A5E62">03</div>
-          <div style="font-size:18px; font-weight:600">Gentle management</div>
-          <div style="font-size:15px; line-height:1.5; color:#2B2D2F">The reds cap is hand plunged twice daily through fermentation.</div>
+          <div style="font-size:18px; font-weight:600">Minimalist management</div>
+          <div style="font-size:15px; line-height:1.5; color:#2B2D2F">Whole bunch pressing for the rosé. Gentle cap management, plunging the reds’ skin cap twice daily by hand.</div>
         </div>
         <div style="padding:36px 56px 36px 32px; display:flex; flex-direction:column; gap:10px">
           <div style="font-size:13px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#5A5E62">04</div>
           <div style="font-size:18px; font-weight:600">Traditionally bottled</div>
-          <div style="font-size:15px; line-height:1.5; color:#2B2D2F">Small addition of sulphur. Fined traditionally and selectively with egg white.</div>
+          <div style="font-size:15px; line-height:1.5; color:#2B2D2F">Small addition of sulphur and a light filter just prior to bottling.</div>
         </div>
       </div>
     </div>
@@ -330,7 +330,7 @@
   <!-- ============ TRADE ============ -->
   <sc-if value="{{ isTrade }}" hint-placeholder-val="{{ true }}">
     <div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; border-top:2px solid rgba(43,45,47,0.5); border-bottom:2px solid rgba(43,45,47,0.5)">
+      <div style="display:grid; grid-template-columns:1fr 1fr; border-bottom:2px solid rgba(43,45,47,0.5)">
         <div style="display:flex; flex-direction:column; gap:24px; padding:56px; border-right:2px solid rgba(43,45,47,0.5)">
           <div style="font-size:13px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#5A5E62">Trade</div>
           <h1 style="margin:0; max-width:18ch; font-size:48px; line-height:1.02; font-weight:800; letter-spacing:-0.02em">Restaurants, retailers and export.</h1>
@@ -365,7 +365,7 @@
   <!-- ============ CART ============ -->
   <sc-if value="{{ isCart }}" hint-placeholder-val="{{ true }}">
     <div>
-      <div style="display:grid; grid-template-columns:1fr 420px; border-top:2px solid rgba(43,45,47,0.5)">
+      <div style="display:grid; grid-template-columns:1fr 420px">
         <div style="display:flex; flex-direction:column; gap:0; padding:56px; border-right:2px solid rgba(43,45,47,0.5)">
           <h1 style="margin:0 0 28px; font-size:40px; line-height:1.02; font-weight:800; letter-spacing:-0.02em">Cart</h1>
           <sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ false }}">
@@ -437,7 +437,7 @@
   <!-- ============ JOIN ============ -->
   <sc-if value="{{ isJoin }}" hint-placeholder-val="{{ true }}">
     <div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; border-top:2px solid rgba(43,45,47,0.5); border-bottom:2px solid rgba(43,45,47,0.5); min-height:520px">
+      <div style="display:grid; grid-template-columns:1fr 1fr; border-bottom:2px solid rgba(43,45,47,0.5); min-height:520px">
         <div style="display:flex; flex-direction:column; justify-content:center; gap:24px; padding:56px; border-right:2px solid rgba(43,45,47,0.5)">
           <h1 style="margin:0; max-width:16ch; font-size:48px; line-height:1.02; font-weight:800; letter-spacing:-0.02em">Become a mate, be in the know.</h1>
           <p style="margin:0; max-width:48ch; font-size:17px; line-height:1.6; text-wrap:pretty">Kingi's mates get first access to any new release, plus exclusive offers. Get to know Kingi...</p>
@@ -467,7 +467,7 @@
 
   <!-- ============ TERMS ============ -->
   <sc-if value="{{ isTerms }}" hint-placeholder-val="{{ true }}">
-    <div style="border-top:2px solid rgba(43,45,47,0.5); padding:56px; display:flex; flex-direction:column; gap:28px; max-width:760px">
+    <div style="padding:56px; display:flex; flex-direction:column; gap:28px; max-width:760px">
       <div style="font-size:13px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#5A5E62">Terms of Service</div>
       <h1 style="margin:0; font-size:44px; line-height:1.02; font-weight:800; letter-spacing:-0.02em">Terms of Service</h1>
       <p style="margin:0; font-size:17px; line-height:1.6">By browsing this website you agree to these Terms of Service. Kingi Wines Limited sells alcohol online under off-licence 007/OFF/373/2026, issued by the Auckland District Licensing Committee, which expires on 6 November 2027.</p>
@@ -696,7 +696,7 @@ class Component extends DCLogic {
     const active = key => key === "wines" ? (s.page === "wines" || s.page === "wine") : s.page === key;
     const nav = s.page === "wine"
       ? { bg: chrome.ground, brand: chrome.brand, text: chrome.text, muted: chrome.muted, rule: chrome.ink }
-      : { bg: "transparent", brand: chrome.brand, text: chrome.text, muted: chrome.muted, rule: chrome.ink };
+      : { bg: "#4A4D50", brand: "#A1D6CA", text: "#EDEDED", muted: "rgba(237,237,237,0.72)", rule: "#EDEDED" };
     const navItems = pages.map(([key, label]) => ({
       label, go: this.go(key),
       rule: active(key) ? nav.rule : "transparent",
