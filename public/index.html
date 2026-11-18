@@ -267,7 +267,7 @@
   <!-- ============ VINEYARD ============ -->
   <sc-if value="{{ isVineyard }}" hint-placeholder-val="{{ true }}">
     <div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; border-bottom:2px solid rgba(43,45,47,0.5)">
+      <div style="display:grid; grid-template-columns:1fr 1fr">
         <div style="display:flex; flex-direction:column; gap:20px; padding:56px; border-right:2px solid rgba(43,45,47,0.5)">
           <div style="font-size:13px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#5A5E62">Onetangi Valley</div>
           <h2 style="margin:0; font-size:38px; line-height:1.05; font-weight:800; letter-spacing:-0.02em">The Pinnacle of Waiheke Syrah, Overlooking Onetangi Valley&nbsp;</h2>
@@ -279,14 +279,14 @@
           <p style="margin:0; font-size:17px; line-height:1.6; text-wrap:pretty">When thinking of viticultural consistency on Waiheke, Jurassic Ridge Vineyard is the first that comes to mind. An organic approach that requires intensive labour, the result; an extremely healthy vineyard with premium quality fruit.&nbsp;<br><br>Sitting above Church Bay in a protected position, the soils consist of thriving top soil on heavy clay. Just as areas of the Chinon appellation in the Loire Valley, these soils produce elegant Cabernet Franc, balanced and complex.&nbsp;</p>
         </div>
       </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; border-bottom:2px solid rgba(43,45,47,0.5)">
-        <div style="height:420px; display:flex; align-items:flex-end; padding:20px; position:relative; overflow:hidden; border-right:2px solid rgba(43,45,47,0.5)">
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr">
+        <div style="height:420px; display:flex; align-items:flex-end; padding:20px; position:relative; overflow:hidden">
           <img src="uploads/vineyard-bunches.jpg" alt="Bunches on the vine" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 40%">
         </div>
         <div style="height:420px; display:flex; align-items:flex-end; padding:20px; position:relative; overflow:hidden">
           <img src="uploads/vineyard-fruit.jpg" alt="Fruit on the vine before picking" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 70%">
           
-        </div><div style="height:420px; display:flex; align-items:flex-end; padding:20px; position:relative; overflow:hidden; border-left:2px solid rgba(43,45,47,0.5)">
+        </div><div style="height:420px; display:flex; align-items:flex-end; padding:20px; position:relative; overflow:hidden">
           <img src="uploads/vineyard-picked-winery.jpg" alt="Picked fruit at the winery" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center center">
           
         </div>
@@ -506,13 +506,12 @@
       <div style="background:#EDEDED; color:#2B2D2F; width:100%; max-width:460px; padding:40px 36px; box-sizing:border-box; display:flex; flex-direction:column; gap:22px">
         <div style="font-size:22px; font-weight:800; letter-spacing:0.34em; text-indent:0.34em; text-align:center">KINGI</div>
         <h2 id="gate-title" style="margin:0; font-size:26px; line-height:1.1; font-weight:800; letter-spacing:-0.01em; text-align:center">Are you 18 or over?</h2>
-        <div style="display:flex; gap:12px; align-items:flex-start">
-          <input type="checkbox" id="gate-age" checked="{{ gateTick }}" onChange="{{ toggleGateTick }}" style="width:20px; height:20px; margin:2px 0 0; accent-color:#2B2D2F; flex:none">
-          <label for="gate-age" style="font-size:15px; line-height:1.5">I declare that I am 18 years of age or over.</label>
+        <div style="display:flex; gap:12px">
+          <button type="button" onClick="{{ enterSite }}" style="flex:1; background:#2B2D2F; color:#EDEDED; font-family:inherit; font-size:16px; font-weight:700; padding:16px 20px; border:2px solid #2B2D2F; cursor:pointer">Yes</button>
+          <button type="button" onClick="{{ refuseSite }}" style="flex:1; background:transparent; color:#2B2D2F; font-family:inherit; font-size:16px; font-weight:700; padding:16px 20px; border:2px solid #2B2D2F; cursor:pointer">No</button>
         </div>
-        <button type="button" onClick="{{ enterSite }}" style="background:#2B2D2F; color:#EDEDED; font-family:inherit; font-size:16px; font-weight:700; padding:16px 20px; border:none; cursor:pointer">Enter</button>
-        <sc-if value="{{ gateNeedsTick }}" hint-placeholder-val="{{ false }}">
-          <div role="alert" style="font-size:14px; color:#8A2A1F; text-align:center">Please tick the box to confirm you are 18 or over.</div>
+        <sc-if value="{{ gateRefused }}" hint-placeholder-val="{{ false }}">
+          <div role="alert" style="font-size:14px; line-height:1.5; color:#8A2A1F; text-align:center">Sorry, you need to be 18 or over to visit this site.</div>
         </sc-if>
         <p style="margin:0; font-size:13px; line-height:1.5; color:#5A5E62; text-align:center">By entering and browsing this site you agree to our Terms of Service.<br>Kingi Wines Limited · Off-licence 007/OFF/373/2026 · Expires 6 November 2027</p>
       </div>
@@ -538,7 +537,7 @@
 class Component extends DCLogic {
   state = { page: "home", wineKey: "syrah", qty: 1, cart: [], email: "", address: "", joinEmail: "", joined: false,
             tradeBusiness: "", tradeEmail: "", tradeNote: "", tradeSent: false, ordered: false, promoCode: "", promoMessage: "",
-            ageOk: false, gateTick: false, gateTried: false, checkoutAge: false, checkoutTried: false,
+            ageOk: (() => { try { return sessionStorage.getItem("kingi-age-ok") === "yes"; } catch (e) { return false; } })(), gateRefused: false, checkoutAge: false, checkoutTried: false,
             checkingOut: false, checkoutError: "", formError: "" };
 
   // Shown on the site only. The prices actually charged live in netlify/functions/catalogue.js.
@@ -732,9 +731,9 @@ class Component extends DCLogic {
       isWinemaking: s.page === "winemaking", isTrade: s.page === "trade",
       isCart: s.page === "cart", isJoin: s.page === "join", isTerms: s.page === "terms",
       goTerms: this.go("terms"),
-      showGate: !s.ageOk, gateTick: s.gateTick, gateNeedsTick: s.gateTried && !s.gateTick,
-      toggleGateTick: e => this.setState({ gateTick: e.target.checked }),
-      enterSite: () => this.setState(st => st.gateTick ? { ageOk: true } : { gateTried: true }),
+      showGate: !s.ageOk, gateRefused: !!s.gateRefused,
+      enterSite: () => { try { sessionStorage.setItem("kingi-age-ok", "yes"); } catch (e) {} this.setState({ ageOk: true }); },
+      refuseSite: () => this.setState({ gateRefused: true }),
       checkoutAge: s.checkoutAge, checkoutNeedsAge: s.checkoutTried && !s.checkoutAge,
       toggleCheckoutAge: e => this.setState({ checkoutAge: e.target.checked }),
       goHome: this.go("home"), goWines: this.go("wines"), goWine: this.go("wines"), goJoin: this.go("join"),
