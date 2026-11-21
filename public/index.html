@@ -8,6 +8,15 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta property="og:title" content="Kingi Wines | Waiheke Island">
 <meta property="og:description" content="Small-batch, naturally fermented wines from Waiheke Island. Pre-order the 2026 release.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kingiwines.com/">
+<meta property="og:site_name" content="Kingi Wines">
+<meta property="og:image" content="https://kingiwines.com/uploads/share-banner.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="KINGI, Waiheke Island: Josh Kingston at the basket press">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://kingiwines.com/uploads/share-banner.jpg">
 <link rel="stylesheet" href="site.css">
 <script src="vendor/react.production.min.js"></script>
 <script src="vendor/react-dom.production.min.js"></script>
@@ -113,13 +122,6 @@
 
       <div style="display:flex; flex-direction:column; gap:80px; padding:48px 56px 80px">
         
-        <div onClick="{{ goWinemaking }}" style="height:400px; display:flex; flex-direction:column; justify-content:flex-end; gap:12px; padding:40px 56px 44px; cursor:pointer; position:relative; overflow:hidden">
-          <img src="uploads/winemaking-ferment.jpg" alt="Ferment in progress" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 45%">
-          <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(21,26,28,0.82) 0%, rgba(21,26,28,0.35) 45%, rgba(21,26,28,0.05) 100%)"></div>
-          <div style="position:relative; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#F1F4E6">Winemaking</div>
-          <div style="position:relative; font-size:26px; font-weight:700; letter-spacing:-0.01em; color:#F7F8EE; max-width:22ch">Hand picked, naturally fermented, traditionally bottled.</div>
-          <div style="position:relative; align-self:flex-start; margin-top:4px; font-size:14px; font-weight:600; color:#F7F8EE; border-bottom:2px solid #C8B590">How it's made</div>
-        </div>
         <div onClick="{{ goVineyard }}" style="height:400px; display:flex; flex-direction:column; justify-content:flex-end; gap:12px; padding:40px 56px 44px; cursor:pointer; position:relative; overflow:hidden">
           <div style="position:absolute; inset:0; overflow:hidden">
             <img src="uploads/vineyard-picked.jpg" alt="Picked fruit, whole bunch" loading="lazy" style="width:100%; height:100%; object-fit:cover; object-position:center center">
@@ -130,6 +132,13 @@
           
           <div style="position:relative; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#F1F4E6">Vineyard</div><div style="position:relative; font-size:26px; font-weight:700; letter-spacing:-0.01em; color:#F7F8EE; max-width:22ch">Two blocks, Onetangi Valley and Church Bay.</div>
           <div style="position:relative; align-self:flex-start; margin-top:4px; font-size:14px; font-weight:600; color:#F7F8EE; border-bottom:2px solid #C8B590">See the sites</div>
+        </div>
+        <div onClick="{{ goWinemaking }}" style="height:400px; display:flex; flex-direction:column; justify-content:flex-end; gap:12px; padding:40px 56px 44px; cursor:pointer; position:relative; overflow:hidden">
+          <img src="uploads/winemaking-ferment.jpg" alt="Ferment in progress" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 45%">
+          <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(21,26,28,0.82) 0%, rgba(21,26,28,0.35) 45%, rgba(21,26,28,0.05) 100%)"></div>
+          <div style="position:relative; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#F1F4E6">Winemaking</div>
+          <div style="position:relative; font-size:26px; font-weight:700; letter-spacing:-0.01em; color:#F7F8EE; max-width:22ch">Hand picked, naturally fermented, traditionally bottled.</div>
+          <div style="position:relative; align-self:flex-start; margin-top:4px; font-size:14px; font-weight:600; color:#F7F8EE; border-bottom:2px solid #C8B590">How it's made</div>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px">
           <div style="display:flex; flex-direction:column; gap:14px">
@@ -311,7 +320,7 @@
           <img src="uploads/josh-harvest.jpg" alt="Josh Kingston with a bin of picked fruit" style="position: absolute; inset: 0; width: 510px; height: 604px; object-fit: cover; object-position: center 46%; transform: scale(1.35); transform-origin: center 46%; filter: grayscale(1) contrast(1.05); left: -34px; top: 16px">
         </div>
       </div>
-      <div style="display:grid; grid-template-columns:repeat(4,1fr); padding-bottom:24px">
+      <div class="wm-steps" style="display:grid; grid-template-columns:repeat(4,1fr); padding-bottom:24px">
         <div style="padding:36px 32px 36px 56px; display:flex; flex-direction:column; gap:10px">
           <div style="font-size:13px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#5A5E62">01</div>
           <div style="font-size:18px; font-weight:600">Hand-picked</div>

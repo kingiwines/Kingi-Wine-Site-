@@ -33,6 +33,7 @@ button:disabled { opacity: 0.6; cursor: progress !important; }
   .wm-hero > .wm-text { display: contents !important; }
   .wm-hero .wm-photo { order: 1; min-height: 360px !important; margin: 0 -20px; }
   .wm-hero .wm-body { order: 2; }
+  .wm-steps > div { padding: 24px 20px !important; }
 
   /* Side padding: 56px down to 20px */
   [style*="padding"][style*="56px"] { padding-left: 20px !important; padding-right: 20px !important; }
